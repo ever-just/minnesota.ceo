@@ -136,10 +136,10 @@ export default function EnhancedNavigation() {
                 <Button
                   asChild
                   size="default"
-                  className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600"
+                  className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white font-semibold"
                   onClick={() => handleLinkClick('Preview Platform')}
                 >
-                  <Link href="/app" className="flex items-center gap-1.5">
+                  <Link href="/app" className="flex items-center gap-1.5 text-white">
                     Preview
                     <ChevronRight className="w-4 h-4" />
                   </Link>

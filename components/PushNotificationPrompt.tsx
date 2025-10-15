@@ -156,7 +156,7 @@ export default function PushNotificationPrompt() {
             onClick={handleEnable}
             disabled={isLoading || status === 'success'}
             size="lg"
-            className="flex-1 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600"
+            className="flex-1 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white font-semibold"
           >
             {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
             {isLoading ? 'Enabling...' : 'Enable Notifications'}

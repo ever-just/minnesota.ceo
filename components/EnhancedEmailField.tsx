@@ -147,10 +147,10 @@ export default function EnhancedEmailField({
               disabled={status === 'loading' || status === 'success'}
               size="lg"
               className={`
-                whitespace-nowrap
+                whitespace-nowrap text-white font-semibold
                 ${status === 'success' 
-                  ? 'bg-green-600 hover:bg-green-700' 
-                  : 'bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600'}
+                  ? 'bg-green-600 hover:bg-green-700 text-white' 
+                  : 'bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white'}
               `}
             >
               {getButtonContent()}
