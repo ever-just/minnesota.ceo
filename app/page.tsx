@@ -65,9 +65,10 @@ export default function HomePage() {
           <ScrollReveal delay={0.8} animationVariant="fadeUp">
             <Link
               href="/app"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white font-bold rounded-lg hover:from-purple-700 hover:to-purple-600 transition-all duration-300 shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 text-lg md:text-xl transform hover:scale-105 border border-purple-400"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-500 !text-white font-bold rounded-lg hover:from-purple-700 hover:to-purple-600 transition-all duration-300 shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 text-lg md:text-xl transform hover:scale-105 border border-purple-400"
+              style={{ color: '#ffffff' }}
             >
-              <span className="text-white drop-shadow-lg">Preview Platform</span>
+              <span className="!text-white drop-shadow-lg" style={{ color: '#ffffff' }}>Preview Platform</span>
               <motion.span
                 initial={{ x: 0 }}
                 animate={{ x: [0, 5, 0] }}

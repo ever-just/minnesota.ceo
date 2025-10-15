@@ -215,7 +215,8 @@ export default function EnhancedNavigation() {
                     <Link
                       href="/app"
                       onClick={() => handleLinkClick('Preview Platform')}
-                      className="block px-4 py-3 bg-gradient-to-r from-purple-600 to-purple-500 text-white font-semibold rounded-lg text-center hover:from-purple-700 hover:to-purple-600 transition-all duration-300"
+                      className="block px-4 py-3 bg-gradient-to-r from-purple-600 to-purple-500 !text-white font-semibold rounded-lg text-center hover:from-purple-700 hover:to-purple-600 transition-all duration-300"
+                      style={{ color: '#ffffff' }}
                     >
                       Preview Platform
                     </Link>

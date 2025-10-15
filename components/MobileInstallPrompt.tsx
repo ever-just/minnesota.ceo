@@ -183,7 +183,8 @@ export default function MobileInstallPrompt({ trigger = false }: { trigger?: boo
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleInstallClick}
-                      className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-500 text-white font-medium rounded-lg"
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-500 !text-white font-medium rounded-lg"
+                      style={{ color: '#ffffff' }}
                     >
                       {device.isIOS ? 'Show Me How' : 'Install Now'}
                     </motion.button>
@@ -281,7 +282,8 @@ export default function MobileInstallPrompt({ trigger = false }: { trigger?: boo
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setShowGuide(false)}
-                className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-500 text-white font-medium rounded-lg"
+                className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-500 !text-white font-medium rounded-lg"
+                style={{ color: '#ffffff' }}
               >
                 Got it!
               </motion.button>
