@@ -14,6 +14,7 @@ import {
   Heart
 } from 'lucide-react'
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaYoutube } from 'react-icons/fa'
+import { createElement } from 'react'
 import EnhancedEmailField from './EnhancedEmailField'
 import { trackClick } from '@/lib/analytics'
 
@@ -222,9 +223,7 @@ export default function EnhancedFooter() {
           className="border-t border-purple-500/20 pt-8 mb-8"
         >
           <div className="flex justify-center items-center space-x-6">
-            {socialLinks.map((social, index) => {
-              const Icon = social.icon
-              return (
+            {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
@@ -238,10 +237,9 @@ export default function EnhancedFooter() {
                   className={`p-3 rounded-full bg-purple-500/10 border border-purple-500/20 text-gray-400 ${social.color} transition-all duration-300`}
                   aria-label={social.label}
                 >
-                  <Icon className="w-5 h-5" />
+                  {createElement(social.icon, { className: "w-5 h-5" })}
                 </motion.a>
-              )
-            })}
+              ))}
           </div>
         </motion.div>
 

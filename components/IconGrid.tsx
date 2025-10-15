@@ -1,5 +1,6 @@
 'use client'
 
+import { createElement } from 'react'
 import { motion } from 'framer-motion'
 import { 
   Users, 
@@ -108,9 +109,7 @@ export default function IconGrid() {
       viewport={{ once: true, amount: 0.2 }}
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
     >
-      {iconItems.map((item, index) => {
-        const Icon = item.icon
-        return (
+      {iconItems.map((item, index) => (
           <motion.div
             key={index}
             variants={itemVariants}
@@ -132,7 +131,7 @@ export default function IconGrid() {
                 transition={{ duration: 0.5 }}
                 className={`w-16 h-16 rounded-lg bg-gradient-to-br ${item.color} p-3 mb-4`}
               >
-                <Icon className="w-full h-full text-white" />
+                {createElement(item.icon, { className: "w-full h-full text-white" })}
               </motion.div>
               
               <h3 className="text-xl font-semibold text-white mb-2">{item.title}</h3>
@@ -148,8 +147,7 @@ export default function IconGrid() {
               </motion.div>
             </div>
           </motion.div>
-        )
-      })}
+        ))}
     </motion.div>
   )
 }

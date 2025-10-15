@@ -5,7 +5,7 @@ import { validateEmail } from '@/lib/utils'
 import EnhancedEmailField from '@/components/EnhancedEmailField'
 import MobileInstallPrompt from '@/components/MobileInstallPrompt'
 import { trackConversion } from '@/lib/analytics'
-import useDeviceDetection from '@/hooks/useDeviceDetection'
+import { useDeviceDetection } from '@/hooks/useDeviceDetection'
 
 interface WaitlistFormProps {
   source?: string
@@ -47,7 +47,7 @@ export default function WaitlistForm({ source = 'main' }: WaitlistFormProps) {
         successMessage="You're on the list! 🎉"
         className="w-full"
       />
-      {showInstallPrompt && <MobileInstallPrompt onClose={() => setShowInstallPrompt(false)} />}
+      {showInstallPrompt && <MobileInstallPrompt trigger={showInstallPrompt} />}
     </div>
   )
 }

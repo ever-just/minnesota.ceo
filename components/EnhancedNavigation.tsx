@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createElement } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { Menu, X, ChevronRight, Sparkles, Home, Target, Eye, Users } from 'lucide-react'
@@ -90,9 +90,7 @@ export default function EnhancedNavigation() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              {navLinks.map((link, index) => {
-                const Icon = link.icon
-                return (
+              {navLinks.map((link, index) => (
                   <motion.div
                     key={link.href}
                     initial={{ opacity: 0, y: -20 }}
@@ -107,12 +105,12 @@ export default function EnhancedNavigation() {
                       className="relative group py-2"
                     >
                       <span className="flex items-center gap-2 text-gray-300 group-hover:text-white transition-colors duration-300">
-                        {Icon && (
+                        {link.icon && (
                           <motion.span
                             animate={{ rotate: hoveredLink === link.label ? 360 : 0 }}
                             transition={{ duration: 0.3 }}
                           >
-                            <Icon className="w-4 h-4" />
+                            {createElement(link.icon, { className: "w-4 h-4" })}
                           </motion.span>
                         )}
                         {link.label}
@@ -127,8 +125,7 @@ export default function EnhancedNavigation() {
                       />
                     </a>
                   </motion.div>
-                )
-              })}
+                ))}
               
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -194,9 +191,7 @@ export default function EnhancedNavigation() {
             >
               <div className="container mx-auto px-4 py-4">
                 <div className="flex flex-col space-y-3">
-                  {navLinks.map((link, index) => {
-                    const Icon = link.icon
-                    return (
+                  {navLinks.map((link, index) => (
                       <motion.a
                         key={link.href}
                         href={link.href}
@@ -206,12 +201,11 @@ export default function EnhancedNavigation() {
                         transition={{ delay: index * 0.1 }}
                         className="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 text-gray-300 hover:text-white hover:bg-purple-500/20 transition-all duration-300"
                       >
-                        {Icon && <Icon className="w-5 h-5" />}
+                        {link.icon && createElement(link.icon, { className: "w-5 h-5" })}
                         <span className="font-medium">{link.label}</span>
                         <ChevronRight className="w-4 h-4 ml-auto" />
                       </motion.a>
-                    )
-                  })}
+                    ))}
                   
                   <motion.div
                     initial={{ x: -20, opacity: 0 }}

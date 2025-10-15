@@ -132,48 +132,21 @@ export const cookieConfig: CookieConsent.CookieConsentConfig = {
         }
       }
     }
-  },
-  onFirstAction: function(userPreferences: CookieConsent.UserPreferences) {
-    // Called on first consent action
-    if (typeof window !== 'undefined') {
-      // Store consent in localStorage
-      localStorage.setItem('cookie_consent', JSON.stringify(userPreferences))
-      
-      // Track consent event
-      if (userPreferences.accept_type === 'all') {
-        trackEvent('cookie_consent_all')
-      } else if (userPreferences.accept_type === 'necessary') {
-        trackEvent('cookie_consent_necessary')
-      } else {
-        trackEvent('cookie_consent_custom')
-      }
-    }
-  },
-  onChange: function(cookie: CookieConsent.CookieValue, changed_preferences: string[]) {
-    // Called when preferences change
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cookie_consent', JSON.stringify(cookie))
-      
-      // Update analytics based on consent
-      if (cookie.categories.includes('analytics')) {
-        enableAnalytics()
-      } else {
-        disableAnalytics()
-      }
-    }
   }
 }
 
 function trackEvent(eventName: string) {
   // Track event to our analytics
-  fetch('/api/analytics', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      event_type: eventName,
-      page_path: window.location.pathname
-    })
-  }).catch(() => {})
+  if (typeof window !== 'undefined') {
+    fetch('/api/analytics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event_type: eventName,
+        page_path: window.location.pathname
+      })
+    }).catch(() => {})
+  }
 }
 
 function enableAnalytics() {
@@ -206,10 +179,14 @@ export function getCookiePreferences(): CookiePreferences {
   }
 }
 
-export function updateCookiePreferences(preferences: Partial<CookiePreferences>) {
-  const categories: string[] = ['necessary']
-  if (preferences.analytics) categories.push('analytics')
-  if (preferences.marketing) categories.push('marketing')
-  
-  CookieConsent.updateCookieConsent(categories)
+// Initialize consent tracking after CookieConsent loads
+export function initCookieTracking() {
+  if (typeof window !== 'undefined') {
+    const consent = CookieConsent.getCookie()
+    if (consent?.categories?.includes('analytics')) {
+      enableAnalytics()
+    } else {
+      disableAnalytics()
+    }
+  }
 }

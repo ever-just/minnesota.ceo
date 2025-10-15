@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createElement } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Smartphone, 
@@ -253,9 +253,7 @@ export default function MobileInstallPrompt({ trigger = false }: { trigger?: boo
 
               {/* Installation Steps */}
               <div className="space-y-4 mb-6">
-                {getInstallSteps().map((step, index) => {
-                  const Icon = step.icon
-                  return (
+                {getInstallSteps().map((step, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, x: -20 }}
@@ -264,7 +262,7 @@ export default function MobileInstallPrompt({ trigger = false }: { trigger?: boo
                       className="flex gap-4"
                     >
                       <div className="flex-shrink-0 w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-purple-400" />
+                        {createElement(step.icon, { className: "w-5 h-5 text-purple-400" })}
                       </div>
                       <div className="flex-1">
                         <h4 className="text-white font-medium mb-1">
@@ -275,8 +273,7 @@ export default function MobileInstallPrompt({ trigger = false }: { trigger?: boo
                         </p>
                       </div>
                     </motion.div>
-                  )
-                })}
+                  ))}
               </div>
 
               {/* Action Button */}

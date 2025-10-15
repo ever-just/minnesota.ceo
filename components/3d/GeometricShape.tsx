@@ -33,70 +33,45 @@ function Shape3D({ type = 'sphere', color = '#9333EA', distort = 0.3, speed = 2 
   })
 
   const renderShape = () => {
-    const props = {
-      ref: meshRef,
-      args: type === 'box' ? [2, 2, 2] : type === 'torus' ? [1, 0.4, 16, 100] : [1.5, 64, 64],
-    }
+    const material = (
+      <MeshDistortMaterial 
+        color={color} 
+        distort={distort} 
+        speed={speed} 
+        roughness={0.2}
+        metalness={0.8}
+      />
+    )
 
     switch (type) {
       case 'box':
         return (
-          <Box {...props}>
-            <MeshDistortMaterial 
-              color={color} 
-              distort={distort} 
-              speed={speed} 
-              roughness={0.2}
-              metalness={0.8}
-            />
+          <Box ref={meshRef} args={[2, 2, 2]}>
+            {material}
           </Box>
         )
       case 'torus':
         return (
-          <Torus {...props}>
-            <MeshDistortMaterial 
-              color={color} 
-              distort={distort} 
-              speed={speed}
-              roughness={0.2}
-              metalness={0.8}
-            />
+          <Torus ref={meshRef} args={[1, 0.4, 16, 100]}>
+            {material}
           </Torus>
         )
       case 'cone':
         return (
-          <Cone {...props}>
-            <MeshDistortMaterial 
-              color={color} 
-              distort={distort} 
-              speed={speed}
-              roughness={0.2}
-              metalness={0.8}
-            />
+          <Cone ref={meshRef} args={[1, 2, 32]}>
+            {material}
           </Cone>
         )
       case 'octahedron':
         return (
-          <Octahedron {...props}>
-            <MeshDistortMaterial 
-              color={color} 
-              distort={distort} 
-              speed={speed}
-              roughness={0.2}
-              metalness={0.8}
-            />
+          <Octahedron ref={meshRef} args={[1.5]}>
+            {material}
           </Octahedron>
         )
       default:
         return (
-          <Sphere {...props}>
-            <MeshDistortMaterial 
-              color={color} 
-              distort={distort} 
-              speed={speed}
-              roughness={0.2}
-              metalness={0.8}
-            />
+          <Sphere ref={meshRef} args={[1.5, 64, 64]}>
+            {material}
           </Sphere>
         )
     }
