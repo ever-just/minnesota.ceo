@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import Navigation from '@/components/Navigation'
-import Footer from '@/components/Footer'
+import EnhancedNavigation from '@/components/EnhancedNavigation'
+import EnhancedFooter from '@/components/EnhancedFooter'
 
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-primary-black text-white">
-      <Navigation />
+      <EnhancedNavigation />
       
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-4xl mx-auto">
@@ -147,7 +147,7 @@ export default function TermsPage() {
         </div>
       </div>
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   )
 }
