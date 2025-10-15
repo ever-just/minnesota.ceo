@@ -135,12 +135,12 @@ export default function EnhancedNavigation() {
                 <Link
                   href="/app"
                   onClick={() => handleLinkClick('Preview Platform')}
-                  className="group relative px-6 py-2.5 overflow-hidden rounded-lg font-semibold"
+                  className="group relative px-5 py-2 overflow-hidden rounded-lg font-medium text-sm whitespace-nowrap"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-500 transition-transform duration-300 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-500 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
-                  <span className="relative text-white flex items-center gap-2">
-                    Preview Platform
+                  <span className="relative text-white flex items-center gap-1.5">
+                    Preview
                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>

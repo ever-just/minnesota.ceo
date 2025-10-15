@@ -149,15 +149,15 @@ export default function EnhancedEmailField({
               whileHover={{ scale: status === 'idle' ? 1.02 : 1 }}
               whileTap={{ scale: status === 'idle' ? 0.98 : 1 }}
               className={`
-                px-6 py-3 rounded-xl font-semibold transition-all duration-300
+                px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-sm whitespace-nowrap
                 ${status === 'success' 
                   ? 'bg-green-600 text-white' 
                   : 'bg-gradient-to-r from-purple-600 to-purple-500 text-white hover:from-purple-700 hover:to-purple-600'}
                 disabled:opacity-50 disabled:cursor-not-allowed
-                min-w-[140px]
+                min-w-[100px]
               `}
             >
-              <span className="flex items-center justify-center gap-2">
+              <span className="flex items-center justify-center gap-1.5">
                 {status === 'success' && <Sparkles className="w-4 h-4" />}
                 {getButtonText()}
               </span>

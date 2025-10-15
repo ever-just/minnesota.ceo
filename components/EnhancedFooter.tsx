@@ -204,16 +204,18 @@ export default function EnhancedFooter() {
 
           {/* Newsletter */}
           <motion.div variants={itemVariants} className="space-y-4">
-            <h4 className="text-lg font-semibold text-white">Stay Updated</h4>
+            <h4 className="text-lg font-semibold text-white">Newsletter</h4>
             <p className="text-gray-400 text-sm">
-              Get exclusive updates and be the first to know when we launch.
+              Get updates when we launch.
             </p>
-            <EnhancedEmailField
-              onSubmit={handleNewsletterSubmit}
-              buttonText="Subscribe"
-              successMessage="Subscribed! 🎉"
-              placeholder="your@email.com"
-            />
+            <div className="max-w-full">
+              <EnhancedEmailField
+                onSubmit={handleNewsletterSubmit}
+                buttonText="Join"
+                successMessage="Joined! 🎉"
+                placeholder="email"
+              />
+            </div>
           </motion.div>
         </div>
 
