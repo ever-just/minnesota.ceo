@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import CookieConsent from '@/components/CookieConsent'
+import PushNotificationPrompt from '@/components/PushNotificationPrompt'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -74,6 +75,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-primary-black">
         {children}
         <CookieConsent />
+        <PushNotificationPrompt />
       </body>
     </html>
   )

@@ -3,13 +3,18 @@
 import { useState } from 'react'
 import { validateEmail } from '@/lib/utils'
 import EnhancedEmailField from '@/components/EnhancedEmailField'
+import MobileInstallPrompt from '@/components/MobileInstallPrompt'
 import { trackConversion } from '@/lib/analytics'
+import useDeviceDetection from '@/hooks/useDeviceDetection'
 
 interface WaitlistFormProps {
   source?: string
 }
 
 export default function WaitlistForm({ source = 'main' }: WaitlistFormProps) {
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false)
+  const { isMobile } = useDeviceDetection()
+
   const handleEnhancedSubmit = async (emailValue: string) => {
     const response = await fetch('/api/waitlist', {
       method: 'POST',
@@ -26,6 +31,11 @@ export default function WaitlistForm({ source = 'main' }: WaitlistFormProps) {
     // Track conversion
     await trackConversion('waitlist', { source })
     
+    // Show mobile install prompt after successful signup on mobile devices
+    if (isMobile) {
+      setTimeout(() => setShowInstallPrompt(true), 1500)
+    }
+    
     return data
   }
 
@@ -37,6 +47,7 @@ export default function WaitlistForm({ source = 'main' }: WaitlistFormProps) {
         successMessage="You're on the list! 🎉"
         className="w-full"
       />
+      {showInstallPrompt && <MobileInstallPrompt onClose={() => setShowInstallPrompt(false)} />}
     </div>
   )
 }

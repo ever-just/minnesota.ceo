@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { VERSION, BUILD_DATE } from '@/lib/version'
 
 export default function Footer() {
   return (
@@ -64,9 +65,15 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-500">
-              © 2025 EVERJUST COMPANY. All rights reserved.
-            </p>
+            <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+              <p className="text-sm text-gray-500">
+                © 2025 EVERJUST COMPANY. All rights reserved.
+              </p>
+              <span className="hidden md:inline text-gray-600">•</span>
+              <p className="text-xs text-gray-600">
+                v{VERSION} • Build {BUILD_DATE}
+              </p>
+            </div>
             <a 
               href="mailto:company@everjust.org"
               className="text-sm text-gray-500 hover:text-primary-purple transition-colors mt-2 md:mt-0"

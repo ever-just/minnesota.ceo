@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect } from 'react'
-import Navigation from '@/components/Navigation'
+import EnhancedNavigation from '@/components/EnhancedNavigation'
 import CountdownTimer from '@/components/CountdownTimer'
 import WaitlistForm from '@/components/WaitlistForm'
 import NominationForm from '@/components/NominationForm'
-import Footer from '@/components/Footer'
+import EnhancedFooter from '@/components/EnhancedFooter'
 import ScrollReveal from '@/components/animations/ScrollReveal'
 import ParallaxSection from '@/components/animations/ParallaxSection'
 import StaggeredList from '@/components/animations/StaggeredList'
@@ -22,7 +22,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-primary-black text-white">
-      <Navigation />
+      <EnhancedNavigation />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
@@ -188,7 +188,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   )
 }
