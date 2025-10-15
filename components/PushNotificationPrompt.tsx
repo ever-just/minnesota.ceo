@@ -58,40 +58,54 @@ export default function PushNotificationPrompt() {
         trackClick('push-notification-enable', 'Enabled')
         localStorage.setItem('push_prompt_seen', 'true')
         
-        // Hide prompt after success
+        // Hide prompt immediately after success
+        setIsLoading(false)
         setTimeout(() => {
           setShowPrompt(false)
-          setIsLoading(false)
-        }, 800)
+        }, 500)
       } else {
         setStatus('error')
         setMessage('Notifications were not enabled.')
         trackClick('push-notification-deny', 'Denied')
         setIsLoading(false)
+        localStorage.setItem('push_prompt_seen', 'true')
         
         // Auto-dismiss after error
         setTimeout(() => {
           setShowPrompt(false)
-        }, 3000)
+        }, 2000)
       }
     } catch (error) {
+      console.error('Push notification error:', error)
       setStatus('error')
       setMessage('Something went wrong. Please try again.')
       setIsLoading(false)
+      
+      // Auto-dismiss on error
+      setTimeout(() => {
+        setShowPrompt(false)
+      }, 2000)
     }
   }
 
   const handleRemindLater = () => {
     setShowPrompt(false)
+    localStorage.setItem('push_prompt_seen', 'true')
     // Show again in 3 days
     const remindDate = new Date()
     remindDate.setDate(remindDate.getDate() + 3)
     localStorage.setItem('push_prompt_remind', remindDate.toISOString())
     trackClick('push-notification-later', 'Remind Later')
   }
+  
+  const handleClose = () => {
+    setShowPrompt(false)
+    localStorage.setItem('push_prompt_seen', 'true')
+    trackClick('push-notification-close', 'Closed')
+  }
 
   return (
-    <Dialog open={showPrompt} onOpenChange={setShowPrompt}>
+    <Dialog open={showPrompt} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px] bg-black border-purple-500/30">
         <DialogHeader>
           <div className="flex items-start gap-4 mb-2">

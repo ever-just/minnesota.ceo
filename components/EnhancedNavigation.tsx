@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { Menu, X, ChevronRight, Sparkles, Home, Target, Eye, Users } from 'lucide-react'
 import { trackClick } from '@/lib/analytics'
+import { Button } from '@/components/ui/button'
 
 interface NavLink {
   href: string
@@ -132,18 +133,17 @@ export default function EnhancedNavigation() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <Link
-                  href="/app"
+                <Button
+                  asChild
+                  size="default"
+                  className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600"
                   onClick={() => handleLinkClick('Preview Platform')}
-                  className="group relative px-5 py-2 overflow-hidden rounded-lg font-medium text-sm whitespace-nowrap"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-500 transition-transform duration-300 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-500 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
-                  <span className="relative text-white flex items-center gap-1.5">
+                  <Link href="/app" className="flex items-center gap-1.5">
                     Preview
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Link>
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </Button>
               </motion.div>
             </div>
 
