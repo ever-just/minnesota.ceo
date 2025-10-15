@@ -2,10 +2,10 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
-import Navigation from '@/components/Navigation'
+import EnhancedNavigation from '@/components/EnhancedNavigation'
 import WaitlistForm from '@/components/WaitlistForm'
 import NominationForm from '@/components/NominationForm'
-import Footer from '@/components/Footer'
+import EnhancedFooter from '@/components/EnhancedFooter'
 
 export default function AppPreviewPage() {
   // Track page view
@@ -31,7 +31,7 @@ export default function AppPreviewPage() {
 
   return (
     <div className="min-h-screen bg-primary-black text-white">
-      <Navigation />
+      <EnhancedNavigation />
 
       {/* Hero Section */}
       <section className="pt-24 pb-12 px-4">
@@ -177,7 +177,7 @@ export default function AppPreviewPage() {
         </div>
       </section>
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   )
 }
