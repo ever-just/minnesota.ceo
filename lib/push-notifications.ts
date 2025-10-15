@@ -32,12 +32,8 @@ class PushNotificationManager {
       return false
     }
 
-    // Check cookie consent
-    const preferences = getCookiePreferences()
-    if (!preferences.marketing) {
-      console.log('Marketing cookies not consented')
-      return false
-    }
+    // Note: Push notifications don't require cookie consent
+    // They are an explicit user opt-in action
 
     try {
       // Register service worker
