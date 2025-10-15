@@ -19,7 +19,7 @@ if (!fs.existsSync(configPath)) {
 }
 
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-const { apiKey, apiSecret, domain, targetIP } = config;
+const { apiKey, apiSecret, domain, targetIP, appURL } = config;
 
 if (!apiKey || !apiSecret || !domain) {
   console.error('Error: Missing required configuration in .godaddy-config.json');
@@ -36,27 +36,39 @@ const headers = {
 // DNS records to configure
 const dnsRecords = [
   {
+    type: 'NS',
+    name: '@',
+    data: 'ns53.domaincontrol.com',
+    ttl: 3600
+  },
+  {
+    type: 'NS',
+    name: '@',
+    data: 'ns54.domaincontrol.com',
+    ttl: 3600
+  },
+  {
     type: 'A',
     name: '@',
-    data: targetIP || '143.198.123.45', // Replace with actual DigitalOcean IP
+    data: targetIP || '165.227.70.236',
     ttl: 600
   },
   {
     type: 'CNAME',
     name: 'www',
-    data: `minnesota-ceo.ondigitalocean.app`, // Replace with actual DO app URL
+    data: appURL || `minnesota-ceo-fupnz.ondigitalocean.app`,
     ttl: 600
   },
   {
     type: 'CNAME',
     name: 'app',
-    data: `minnesota-ceo.ondigitalocean.app`,
+    data: appURL || `minnesota-ceo-fupnz.ondigitalocean.app`,
     ttl: 600
   },
   {
     type: 'CNAME',
     name: 'admin',
-    data: `minnesota-ceo.ondigitalocean.app`,
+    data: appURL || `minnesota-ceo-fupnz.ondigitalocean.app`,
     ttl: 600
   }
 ];
