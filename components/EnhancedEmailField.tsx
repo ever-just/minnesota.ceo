@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Mail, CheckCircle, AlertCircle, Loader2, Sparkles } from 'lucide-react'
 import confetti from 'canvas-confetti'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 interface EnhancedEmailFieldProps {
   onSubmit: (email: string) => Promise<void>
@@ -24,7 +26,6 @@ export default function EnhancedEmailField({
   const [isFocused, setIsFocused] = useState(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
-  const inputRef = useRef<HTMLInputElement>(null)
   
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -77,12 +78,22 @@ export default function EnhancedEmailField({
     }
   }
 
-  const getButtonText = () => {
+  const getButtonContent = () => {
     switch (status) {
       case 'loading':
-        return 'Joining...'
+        return (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Joining...</span>
+          </>
+        )
       case 'success':
-        return successMessage
+        return (
+          <>
+            <Sparkles className="w-4 h-4" />
+            <span>{successMessage}</span>
+          </>
+        )
       default:
         return buttonText
     }
@@ -103,20 +114,19 @@ export default function EnhancedEmailField({
         
         {/* Input container */}
         <div className="relative bg-black/50 backdrop-blur-sm rounded-2xl border border-purple-500/30 p-2 transition-all duration-300 hover:border-purple-500/50">
-          <div className="flex items-center gap-3">
-            {/* Icon */}
+          <div className="flex items-center gap-2">
+            {/* Status Icon */}
             <motion.div
               animate={{ rotate: status === 'success' ? 360 : 0 }}
               transition={{ duration: 0.5 }}
-              className="pl-3"
+              className="pl-2"
             >
               {getStatusIcon()}
             </motion.div>
             
-            {/* Input with floating label */}
-            <div className="relative flex-1">
-              <input
-                ref={inputRef}
+            {/* Email Input */}
+            <div className="flex-1">
+              <Input
                 type="email"
                 value={email}
                 onChange={(e) => {
@@ -126,42 +136,25 @@ export default function EnhancedEmailField({
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 disabled={status === 'loading' || status === 'success'}
-                className="w-full bg-transparent text-white px-2 py-3 outline-none placeholder-transparent peer disabled:opacity-50"
                 placeholder={placeholder}
-                id="email-input"
+                className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 h-11 text-white placeholder:text-gray-500"
               />
-              
-              <label
-                htmlFor="email-input"
-                className={`absolute left-2 transition-all duration-200 pointer-events-none
-                  ${email || isFocused 
-                    ? '-top-2 text-xs text-purple-400 bg-black px-1' 
-                    : 'top-3 text-sm text-gray-400'}`}
-              >
-                {email || isFocused ? 'Email' : 'Enter your email'}
-              </label>
             </div>
             
-            {/* Submit button */}
-            <motion.button
+            {/* Submit Button */}
+            <Button
               type="submit"
               disabled={status === 'loading' || status === 'success'}
-              whileHover={{ scale: status === 'idle' ? 1.02 : 1 }}
-              whileTap={{ scale: status === 'idle' ? 0.98 : 1 }}
+              size="lg"
               className={`
-                px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-sm whitespace-nowrap
+                whitespace-nowrap
                 ${status === 'success' 
-                  ? 'bg-green-600 text-white' 
-                  : 'bg-gradient-to-r from-purple-600 to-purple-500 text-white hover:from-purple-700 hover:to-purple-600'}
-                disabled:opacity-50 disabled:cursor-not-allowed
-                min-w-[100px]
+                  ? 'bg-green-600 hover:bg-green-700' 
+                  : 'bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600'}
               `}
             >
-              <span className="flex items-center justify-center gap-1.5">
-                {status === 'success' && <Sparkles className="w-4 h-4" />}
-                {getButtonText()}
-              </span>
-            </motion.button>
+              {getButtonContent()}
+            </Button>
           </div>
         </div>
         
@@ -172,7 +165,7 @@ export default function EnhancedEmailField({
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute -bottom-8 left-0 text-red-400 text-sm flex items-center gap-1"
+              className="absolute -bottom-7 left-0 text-red-400 text-sm flex items-center gap-1"
             >
               <AlertCircle className="w-4 h-4" />
               {errorMessage}
