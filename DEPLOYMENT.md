@@ -107,8 +107,8 @@ CREATE TABLE IF NOT EXISTS admin_sessions (
 1. Create a file `.godaddy-config.json`:
    ```json
    {
-     "apiKey": "gHKhkafh4D1G_QNMwoJ3AJiLEMrD96B62J6",
-     "apiSecret": "He3jt9WKdPFeevVbVrbanZ",
+     "apiKey": "YOUR_GODADDY_API_KEY",
+     "apiSecret": "YOUR_GODADDY_API_SECRET",
      "domain": "minnesota.ceo"
    }
    ```
