@@ -14,27 +14,34 @@ const customCSS = `
     background: linear-gradient(to bottom, #1a1a1a, #000000) !important;
     border: 1px solid rgba(147, 51, 234, 0.3) !important;
     box-shadow: 0 20px 25px -5px rgba(147, 51, 234, 0.1), 0 10px 10px -5px rgba(147, 51, 234, 0.04) !important;
+    max-width: 480px !important;
   }
   
   .cm__title, .pm__title {
     color: #fff !important;
     font-weight: 600 !important;
+    font-size: 1.125rem !important;
   }
   
   .cm__desc, .pm__desc {
     color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
   }
   
   .cm__btn, .pm__btn {
     border-radius: 0.5rem !important;
     font-weight: 500 !important;
     transition: all 0.3s !important;
+    padding: 0.625rem 1.25rem !important;
+    font-size: 0.875rem !important;
   }
   
   .cm__btn--primary, .pm__btn--primary {
     background: linear-gradient(to right, #6B46C1, #9333EA) !important;
     color: white !important;
     border: none !important;
+    white-space: nowrap !important;
   }
   
   .cm__btn--primary:hover, .pm__btn--primary:hover {
@@ -58,11 +65,17 @@ const customCSS = `
     background: rgba(255, 255, 255, 0.1) !important;
     color: rgba(255, 255, 255, 0.9) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    white-space: nowrap !important;
   }
   
   .cm__btn--tertiary:hover {
     background: rgba(255, 255, 255, 0.15) !important;
     border-color: rgba(255, 255, 255, 0.3) !important;
+  }
+  
+  .cm__footer {
+    margin-top: 0.75rem !important;
+    font-size: 0.75rem !important;
   }
   
   .section__toggle {

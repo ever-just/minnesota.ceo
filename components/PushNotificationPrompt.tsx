@@ -48,20 +48,27 @@ export default function PushNotificationPrompt() {
         setStatus('success')
         setMessage('Notifications enabled! You\'ll be the first to know.')
         trackClick('push-notification-enable', 'Enabled')
+        localStorage.setItem('push_prompt_seen', 'true')
         
-        // Hide prompt after success
+        // Hide prompt immediately after success
         setTimeout(() => {
           setShowPrompt(false)
-        }, 3000)
+          setIsLoading(false)
+        }, 800)
       } else {
         setStatus('error')
         setMessage('Notifications were not enabled. You can enable them later in settings.')
         trackClick('push-notification-deny', 'Denied')
+        setIsLoading(false)
+        
+        // Auto-dismiss after error
+        setTimeout(() => {
+          setShowPrompt(false)
+        }, 3000)
       }
     } catch (error) {
       setStatus('error')
       setMessage('Something went wrong. Please try again.')
-    } finally {
       setIsLoading(false)
     }
   }

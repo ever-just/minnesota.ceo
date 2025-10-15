@@ -136,9 +136,9 @@ export default function EnhancedEmailField({
                 className={`absolute left-2 transition-all duration-200 pointer-events-none
                   ${email || isFocused 
                     ? '-top-2 text-xs text-purple-400 bg-black px-1' 
-                    : 'top-3 text-gray-400'}`}
+                    : 'top-3 text-sm text-gray-400'}`}
               >
-                Enter your email
+                {email || isFocused ? 'Email' : 'Enter your email'}
               </label>
             </div>
             

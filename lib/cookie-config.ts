@@ -36,12 +36,12 @@ export const cookieConfig: CookieConsent.CookieConsentConfig = {
     translations: {
       en: {
         consentModal: {
-          title: 'We value your privacy',
-          description: 'We use cookies to enhance your experience and analyze our traffic. Please choose your preferences.',
-          acceptAllBtn: 'Accept all',
-          acceptNecessaryBtn: 'Reject all',
-          showPreferencesBtn: 'Manage preferences',
-          footer: '<a href="/privacy">Privacy Policy</a>'
+          title: 'Cookie Settings',
+          description: 'We use cookies to improve your experience.',
+          acceptAllBtn: 'Accept',
+          acceptNecessaryBtn: 'Decline',
+          showPreferencesBtn: 'Customize',
+          footer: '<a href="/privacy">Privacy</a>'
         },
         preferencesModal: {
           title: 'Cookie Preferences',
