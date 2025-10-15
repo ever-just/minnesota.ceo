@@ -145,13 +145,9 @@ export default function EnhancedEmailField({
             <Button
               type="submit"
               disabled={status === 'loading' || status === 'success'}
+              variant={status === 'success' ? 'default' : 'gradient'}
               size="lg"
-              className={`
-                whitespace-nowrap text-white font-semibold
-                ${status === 'success' 
-                  ? 'bg-green-600 hover:bg-green-700 text-white' 
-                  : 'bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white'}
-              `}
+              className={status === 'success' ? 'bg-green-600 hover:bg-green-700 text-white font-semibold' : ''}
             >
               {getButtonContent()}
             </Button>
