@@ -43,3 +43,6 @@ next-env.d.ts
 
 # database
 *.sql
+
+# deployment config
+deploy-config.json
