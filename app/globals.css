@@ -121,14 +121,3 @@
     @apply relative before:absolute before:inset-0 before:p-[1px] before:bg-gradient-to-r before:from-primary-purple before:to-light-purple before:rounded-lg before:-z-10;
   }
 }
-
-
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
