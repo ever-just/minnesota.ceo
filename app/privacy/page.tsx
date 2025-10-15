@@ -19,7 +19,7 @@ export default function PrivacyPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-primary-purple mb-4">1. Information We Collect</h2>
               <p className="text-gray-300 mb-4">
-                MINNESOTA.CEO ("we," "our," or "us"), operated by EVERJUST COMPANY, collects the following types of information:
+                MINNESOTA.CEO (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;), operated by EVERJUST COMPANY, collects the following types of information:
               </p>
               <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
                 <li>Email addresses when you join our waitlist</li>

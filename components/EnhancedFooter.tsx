@@ -135,7 +135,7 @@ export default function EnhancedFooter() {
           <motion.div variants={itemVariants} className="space-y-4">
             <h3 className="text-2xl font-bold gradient-text">MINNESOTA.CEO</h3>
             <p className="text-gray-400">
-              Showcasing Minnesota's most influential leaders through exclusive video interviews.
+              Showcasing Minnesota&apos;s most influential leaders through exclusive video interviews.
             </p>
             <div className="pt-4">
               <p className="text-sm text-gray-500">Owned & Operated by</p>

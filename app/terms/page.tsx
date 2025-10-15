@@ -19,7 +19,7 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-primary-purple mb-4">1. Acceptance of Terms</h2>
               <p className="text-gray-300 mb-4">
-                By accessing and using MINNESOTA.CEO (the "Website"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use this Website.
+                By accessing and using MINNESOTA.CEO (the &ldquo;Website&rdquo;), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use this Website.
               </p>
             </section>
 
@@ -78,7 +78,7 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-primary-purple mb-4">7. Disclaimers</h2>
               <p className="text-gray-300 mb-4">
-                The information on MINNESOTA.CEO is provided on an "as is" basis. To the fullest extent permitted by law, we:
+                The information on MINNESOTA.CEO is provided on an &ldquo;as is&rdquo; basis. To the fullest extent permitted by law, we:
               </p>
               <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
                 <li>Make no warranties, expressed or implied</li>
