@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/lib/db'
 import { validateEmail, sanitizeInput } from '@/lib/utils'
-import { sendWelcomeEmail } from '@/lib/sendgrid'
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,9 +43,6 @@ export async function POST(request: NextRequest) {
     } catch (dbError) {
       console.log('Database insert skipped:', dbError)
     }
-
-    // Send welcome email
-    await sendWelcomeEmail(sanitizedEmail)
 
     // Track analytics event
     try {
