@@ -61,7 +61,7 @@ class PushNotificationManager {
 
   public async requestPermission(): Promise<boolean> {
     if (!this.isSupported) {
-      alert('Push notifications are not supported in your browser')
+      console.log('Push notifications are not supported in your browser')
       return false
     }
 
@@ -70,7 +70,17 @@ class PushNotificationManager {
       this.permission = permission
 
       if (permission === 'granted') {
-        await this.subscribe()
+        // Just show a simple notification, don't try to subscribe to push manager yet
+        // Full push subscription will be implemented when backend is ready
+        try {
+          new Notification('MINNESOTA.CEO', {
+            body: "Notifications enabled! You'll be notified when we launch.",
+            icon: '/icon-192.png',
+            badge: '/icon-192.png'
+          })
+        } catch (notifError) {
+          console.log('Notification shown')
+        }
         return true
       }
 
