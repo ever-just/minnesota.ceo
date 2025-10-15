@@ -6,17 +6,18 @@ import CountdownTimer from '@/components/CountdownTimer'
 import WaitlistForm from '@/components/WaitlistForm'
 import NominationForm from '@/components/NominationForm'
 import Footer from '@/components/Footer'
+import ScrollReveal from '@/components/animations/ScrollReveal'
+import ParallaxSection from '@/components/animations/ParallaxSection'
+import StaggeredList from '@/components/animations/StaggeredList'
 import { leaderCategories } from '@/lib/utils'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { trackPageView } from '@/lib/analytics'
 
 export default function HomePage() {
-  // Track page view
+  // Track page view with enhanced analytics
   useEffect(() => {
-    fetch('/api/analytics', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ eventType: 'page_view', pagePath: '/' }),
-    }).catch(() => {})
+    trackPageView({ path: '/', title: 'Home' })
   }, [])
 
   return (
@@ -24,33 +25,51 @@ export default function HomePage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black pointer-events-none" />
+      <section className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
+        <ParallaxSection type="zoom" speed={0.3} className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black pointer-events-none" />
+        </ParallaxSection>
         
-        <div className="container mx-auto text-center z-10 animate-fade-up">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-            <span className="gradient-text">MINNESOTA.CEO</span>
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            Exclusive video interviews with Minnesota&apos;s most influential leaders from business, education, government, and community organizations
-          </p>
-
-          <div className="mb-12">
-            <p className="text-lg text-gray-400 mb-6">Launching November 1st, 2025</p>
-            <CountdownTimer />
-          </div>
-
-          <div className="mb-8">
-            <WaitlistForm />
-          </div>
-
-          <Link
-            href="/app"
-            className="inline-block px-8 py-4 bg-gold text-black font-semibold rounded-lg hover:bg-dark-gold transition-all duration-300 hover-glow text-lg"
+        <div className="container mx-auto text-center z-10">
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6"
           >
-            Preview app.minnesota.ceo →
-          </Link>
+            <span className="gradient-text">MINNESOTA.CEO</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto"
+          >
+            Exclusive video interviews with Minnesota&apos;s most influential leaders from business, education, government, and community organizations
+          </motion.p>
+
+          <ScrollReveal delay={0.4} animationVariant="fadeUp">
+            <div className="mb-12">
+              <p className="text-lg text-gray-400 mb-6">Launching November 1st, 2025</p>
+              <CountdownTimer />
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.6} animationVariant="scale">
+            <div className="mb-8">
+              <WaitlistForm />
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.8} animationVariant="fadeUp">
+            <Link
+              href="/app"
+              className="inline-block px-8 py-4 bg-primary-purple text-white font-semibold rounded-lg hover:bg-light-purple transition-all duration-300 hover-glow text-lg transform hover:scale-105"
+            >
+              Preview app.minnesota.ceo →
+            </Link>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -65,7 +84,7 @@ export default function HomePage() {
               </p>
             </div>
             <div className="glass-effect rounded-xl p-8 animate-fade-up">
-              <h3 className="text-2xl font-semibold mb-4 text-gold">Founded by Weldon</h3>
+              <h3 className="text-2xl font-semibold mb-4 text-primary-purple">Founded by Weldon</h3>
               <p className="text-gray-300">
                 A visionary committed to showcasing the extraordinary leaders who make Minnesota a beacon of innovation, community service, and progressive leadership in America.
               </p>
@@ -92,7 +111,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="glass-effect rounded-xl p-6 hover-glow animate-fade-up">
               <div className="text-4xl mb-4">🎯</div>
-              <h3 className="text-xl font-semibold mb-3 text-gold">Document Leadership</h3>
+              <h3 className="text-xl font-semibold mb-3 text-primary-purple">Document Leadership</h3>
               <p className="text-gray-300">
                 Preserve the wisdom, experiences, and insights of Minnesota&apos;s leaders for current and future generations.
               </p>
@@ -100,7 +119,7 @@ export default function HomePage() {
 
             <div className="glass-effect rounded-xl p-6 hover-glow animate-fade-up" style={{ animationDelay: '0.1s' }}>
               <div className="text-4xl mb-4">🤝</div>
-              <h3 className="text-xl font-semibold mb-3 text-gold">Build Connections</h3>
+              <h3 className="text-xl font-semibold mb-3 text-primary-purple">Build Connections</h3>
               <p className="text-gray-300">
                 Bridge gaps between different sectors and communities, fostering understanding and collaboration.
               </p>
@@ -108,7 +127,7 @@ export default function HomePage() {
 
             <div className="glass-effect rounded-xl p-6 hover-glow animate-fade-up" style={{ animationDelay: '0.2s' }}>
               <div className="text-4xl mb-4">💡</div>
-              <h3 className="text-xl font-semibold mb-3 text-gold">Inspire Action</h3>
+              <h3 className="text-xl font-semibold mb-3 text-primary-purple">Inspire Action</h3>
               <p className="text-gray-300">
                 Motivate viewers to pursue leadership roles and make positive impacts in their communities.
               </p>

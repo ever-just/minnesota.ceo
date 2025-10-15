@@ -1,0 +1,215 @@
+'use client'
+
+import * as CookieConsent from 'vanilla-cookieconsent'
+
+export interface CookiePreferences {
+  necessary: boolean
+  analytics: boolean
+  marketing: boolean
+}
+
+export const cookieConfig: CookieConsent.CookieConsentConfig = {
+  guiOptions: {
+    consentModal: {
+      layout: 'box',
+      position: 'bottom right',
+      equalWeightButtons: true,
+      flipButtons: false
+    },
+    preferencesModal: {
+      layout: 'box',
+      position: 'right',
+      equalWeightButtons: true,
+      flipButtons: false
+    }
+  },
+  categories: {
+    necessary: {
+      readOnly: true
+    },
+    analytics: {},
+    marketing: {}
+  },
+  language: {
+    default: 'en',
+    autoDetect: 'browser',
+    translations: {
+      en: {
+        consentModal: {
+          title: 'We value your privacy',
+          description: 'We use cookies to enhance your experience and analyze our traffic. Please choose your preferences.',
+          acceptAllBtn: 'Accept all',
+          acceptNecessaryBtn: 'Reject all',
+          showPreferencesBtn: 'Manage preferences',
+          footer: '<a href="/privacy">Privacy Policy</a>'
+        },
+        preferencesModal: {
+          title: 'Cookie Preferences',
+          acceptAllBtn: 'Accept all',
+          acceptNecessaryBtn: 'Accept necessary only',
+          savePreferencesBtn: 'Save preferences',
+          closeIconLabel: 'Close modal',
+          serviceCounterLabel: 'Service|Services',
+          sections: [
+            {
+              title: 'Cookie Usage',
+              description: 'We use cookies to ensure the basic functionalities of the website and to enhance your experience. You can choose for each category to opt-in/out whenever you want.'
+            },
+            {
+              title: 'Necessary cookies <span class="pm__badge">Always Enabled</span>',
+              description: 'These cookies are essential for the proper functioning of the website. Without these cookies, the website would not work properly.',
+              linkedCategory: 'necessary',
+              cookieTable: {
+                headers: {
+                  name: 'Name',
+                  domain: 'Domain',
+                  expiration: 'Expiration',
+                  description: 'Description'
+                },
+                body: [
+                  {
+                    name: 'session_token',
+                    domain: 'minnesota.ceo',
+                    expiration: 'Session',
+                    description: 'Used for admin authentication'
+                  }
+                ]
+              }
+            },
+            {
+              title: 'Analytics cookies',
+              description: 'These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously.',
+              linkedCategory: 'analytics',
+              cookieTable: {
+                headers: {
+                  name: 'Name',
+                  domain: 'Domain',
+                  expiration: 'Expiration',
+                  description: 'Description'
+                },
+                body: [
+                  {
+                    name: 'visitor_id',
+                    domain: 'minnesota.ceo',
+                    expiration: '1 year',
+                    description: 'Unique visitor identifier for analytics'
+                  },
+                  {
+                    name: 'page_views',
+                    domain: 'minnesota.ceo',
+                    expiration: '30 days',
+                    description: 'Tracks page view statistics'
+                  }
+                ]
+              }
+            },
+            {
+              title: 'Marketing cookies',
+              description: 'These cookies are used to track visitors across websites to display ads that are relevant and engaging.',
+              linkedCategory: 'marketing',
+              cookieTable: {
+                headers: {
+                  name: 'Name',
+                  domain: 'Domain',
+                  expiration: 'Expiration',
+                  description: 'Description'
+                },
+                body: [
+                  {
+                    name: 'campaign_id',
+                    domain: 'minnesota.ceo',
+                    expiration: '90 days',
+                    description: 'Tracks marketing campaign effectiveness'
+                  }
+                ]
+              }
+            },
+            {
+              title: 'More information',
+              description: 'For any queries in relation to our policy on cookies and your choices, please <a href="mailto:company@everjust.org">contact us</a>.'
+            }
+          ]
+        }
+      }
+    }
+  },
+  onFirstAction: function(userPreferences: CookieConsent.UserPreferences) {
+    // Called on first consent action
+    if (typeof window !== 'undefined') {
+      // Store consent in localStorage
+      localStorage.setItem('cookie_consent', JSON.stringify(userPreferences))
+      
+      // Track consent event
+      if (userPreferences.accept_type === 'all') {
+        trackEvent('cookie_consent_all')
+      } else if (userPreferences.accept_type === 'necessary') {
+        trackEvent('cookie_consent_necessary')
+      } else {
+        trackEvent('cookie_consent_custom')
+      }
+    }
+  },
+  onChange: function(cookie: CookieConsent.CookieValue, changed_preferences: string[]) {
+    // Called when preferences change
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cookie_consent', JSON.stringify(cookie))
+      
+      // Update analytics based on consent
+      if (cookie.categories.includes('analytics')) {
+        enableAnalytics()
+      } else {
+        disableAnalytics()
+      }
+    }
+  }
+}
+
+function trackEvent(eventName: string) {
+  // Track event to our analytics
+  fetch('/api/analytics', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      event_type: eventName,
+      page_path: window.location.pathname
+    })
+  }).catch(() => {})
+}
+
+function enableAnalytics() {
+  // Enable analytics tracking
+  if (typeof window !== 'undefined') {
+    (window as any).analyticsEnabled = true
+  }
+}
+
+function disableAnalytics() {
+  // Disable analytics tracking
+  if (typeof window !== 'undefined') {
+    (window as any).analyticsEnabled = false
+    // Clear analytics cookies
+    document.cookie = 'visitor_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+    document.cookie = 'page_views=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  }
+}
+
+export function getCookiePreferences(): CookiePreferences {
+  if (typeof window === 'undefined') {
+    return { necessary: true, analytics: false, marketing: false }
+  }
+  
+  const consent = CookieConsent.getCookie()
+  return {
+    necessary: true,
+    analytics: consent?.categories?.includes('analytics') || false,
+    marketing: consent?.categories?.includes('marketing') || false
+  }
+}
+
+export function updateCookiePreferences(preferences: Partial<CookiePreferences>) {
+  const categories: string[] = ['necessary']
+  if (preferences.analytics) categories.push('analytics')
+  if (preferences.marketing) categories.push('marketing')
+  
+  CookieConsent.updateCookieConsent(categories)
+}

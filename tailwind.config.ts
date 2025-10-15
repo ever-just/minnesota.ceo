@@ -10,9 +10,19 @@ const config: Config = {
     extend: {
       colors: {
         'primary-black': '#000000',
-        'gold': '#FFD700',
-        'dark-gold': '#B8860B',
-        'light-gold': '#FFF8DC',
+        'primary-purple': '#6B46C1',
+        'light-purple': '#9333EA',
+        'dark-purple': '#4C1D95',
+        'purple-50': '#FAF5FF',
+        'purple-100': '#F3E8FF',
+        'purple-200': '#E9D5FF',
+        'purple-300': '#D8B4FE',
+        'purple-400': '#C084FC',
+        'purple-500': '#A855F7',
+        'purple-600': '#9333EA',
+        'purple-700': '#7E22CE',
+        'purple-800': '#6B21A8',
+        'purple-900': '#581C87',
       },
       fontFamily: {
         'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],

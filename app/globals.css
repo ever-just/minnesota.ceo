@@ -28,20 +28,20 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-gold rounded-full;
+    @apply bg-primary-purple rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-dark-gold;
+    @apply bg-light-purple;
   }
 
   /* Selection colors */
   ::selection {
-    @apply bg-gold text-primary-black;
+    @apply bg-primary-purple text-white;
   }
 
   ::-moz-selection {
-    @apply bg-gold text-primary-black;
+    @apply bg-primary-purple text-white;
   }
 }
 
@@ -51,7 +51,7 @@
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-gold to-light-gold bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-purple to-light-purple bg-clip-text text-transparent;
   }
 
   .glass-effect {
@@ -59,6 +59,14 @@
   }
 
   .hover-glow {
-    @apply transition-all duration-300 hover:shadow-lg hover:shadow-gold/20;
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary-purple/30;
+  }
+
+  .purple-gradient {
+    @apply bg-gradient-to-r from-primary-purple to-light-purple;
+  }
+
+  .purple-gradient-border {
+    @apply relative before:absolute before:inset-0 before:p-[1px] before:bg-gradient-to-r before:from-primary-purple before:to-light-purple before:rounded-lg before:-z-10;
   }
 }

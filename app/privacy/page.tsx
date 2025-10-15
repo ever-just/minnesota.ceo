@@ -17,7 +17,7 @@ export default function PrivacyPage() {
             </p>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gold mb-4">1. Information We Collect</h2>
+              <h2 className="text-2xl font-semibold text-primary-purple mb-4">1. Information We Collect</h2>
               <p className="text-gray-300 mb-4">
                 MINNESOTA.CEO ("we," "our," or "us"), operated by EVERJUST COMPANY, collects the following types of information:
               </p>
@@ -30,7 +30,7 @@ export default function PrivacyPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gold mb-4">2. How We Use Your Information</h2>
+              <h2 className="text-2xl font-semibold text-primary-purple mb-4">2. How We Use Your Information</h2>
               <p className="text-gray-300 mb-4">We use the collected information to:</p>
               <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
                 <li>Send updates about our platform launch and new content</li>
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gold mb-4">3. Information Sharing</h2>
+              <h2 className="text-2xl font-semibold text-primary-purple mb-4">3. Information Sharing</h2>
               <p className="text-gray-300 mb-4">
                 We do not sell, trade, or rent your personal information to third parties. We may share information:
               </p>
@@ -54,14 +54,14 @@ export default function PrivacyPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gold mb-4">4. Data Security</h2>
+              <h2 className="text-2xl font-semibold text-primary-purple mb-4">4. Data Security</h2>
               <p className="text-gray-300 mb-4">
                 We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet is 100% secure.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gold mb-4">5. Your Rights</h2>
+              <h2 className="text-2xl font-semibold text-primary-purple mb-4">5. Your Rights</h2>
               <p className="text-gray-300 mb-4">You have the right to:</p>
               <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
                 <li>Access your personal information</li>
@@ -72,35 +72,35 @@ export default function PrivacyPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gold mb-4">6. Cookies</h2>
+              <h2 className="text-2xl font-semibold text-primary-purple mb-4">6. Cookies</h2>
               <p className="text-gray-300 mb-4">
                 We use cookies and similar tracking technologies to improve your browsing experience and analyze website traffic. You can control cookies through your browser settings.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gold mb-4">7. Children&apos;s Privacy</h2>
+              <h2 className="text-2xl font-semibold text-primary-purple mb-4">7. Children&apos;s Privacy</h2>
               <p className="text-gray-300 mb-4">
                 Our services are not intended for individuals under 18 years of age. We do not knowingly collect personal information from children.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gold mb-4">8. Changes to This Policy</h2>
+              <h2 className="text-2xl font-semibold text-primary-purple mb-4">8. Changes to This Policy</h2>
               <p className="text-gray-300 mb-4">
                 We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new policy on this page and updating the effective date.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gold mb-4">9. Contact Us</h2>
+              <h2 className="text-2xl font-semibold text-primary-purple mb-4">9. Contact Us</h2>
               <p className="text-gray-300 mb-4">
                 If you have questions about this Privacy Policy, please contact us at:
               </p>
               <p className="text-gray-300">
                 EVERJUST COMPANY<br />
-                Email: <a href="mailto:company@everjust.org" className="text-gold hover:text-dark-gold">company@everjust.org</a><br />
-                Website: <a href="https://minnesota.ceo" className="text-gold hover:text-dark-gold">https://minnesota.ceo</a>
+                Email: <a href="mailto:company@everjust.org" className="text-primary-purple hover:text-dark-purple">company@everjust.org</a><br />
+                Website: <a href="https://minnesota.ceo" className="text-primary-purple hover:text-dark-purple">https://minnesota.ceo</a>
               </p>
             </section>
           </div>
@@ -108,7 +108,7 @@ export default function PrivacyPage() {
           <div className="mt-12 pt-8 border-t border-white/10">
             <Link 
               href="/"
-              className="text-gray-400 hover:text-gold transition-colors"
+              className="text-gray-400 hover:text-primary-purple transition-colors"
             >
               ← Back to Home
             </Link>

@@ -4,20 +4,77 @@ import { query } from '@/lib/db'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { eventType = 'page_view', pagePath = '/' } = body
+    const {
+      event_type = 'page_view',
+      page_path = '/',
+      event_value,
+      event_category,
+      user_agent,
+      referrer,
+      screen_resolution,
+      viewport_size,
+      session_id,
+      visitor_id
+    } = body
 
     const ip = request.headers.get('x-forwarded-for') || 
                request.headers.get('x-real-ip') || 
                'unknown'
-    const userAgent = request.headers.get('user-agent') || 'unknown'
-    const referrer = request.headers.get('referer') || 'direct'
+    const ua = user_agent || request.headers.get('user-agent') || 'unknown'
+    const ref = referrer || request.headers.get('referer') || 'direct'
 
     try {
+      // Insert into new analytics_events table
       await query(
-        `INSERT INTO analytics (event_type, page_path, user_agent, ip_address, referrer) 
-         VALUES ($1, $2, $3, $4, $5)`,
-        [eventType, pagePath, userAgent, ip, referrer]
+        `INSERT INTO analytics_events (
+          event_type, page_path, event_value, event_category,
+          user_agent, ip_address, referrer, 
+          screen_resolution, viewport_size,
+          session_id, visitor_id
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+        [
+          event_type, page_path, event_value, event_category,
+          ua, ip, ref,
+          screen_resolution, viewport_size,
+          session_id, visitor_id
+        ]
       )
+
+      // Update visitor record
+      if (visitor_id) {
+        await query(
+          `INSERT INTO analytics_visitors (visitor_id, last_seen, total_pageviews) 
+           VALUES ($1, NOW(), 1)
+           ON CONFLICT (visitor_id) 
+           DO UPDATE SET 
+             last_seen = NOW(),
+             total_pageviews = analytics_visitors.total_pageviews + 1`,
+          [visitor_id]
+        )
+      }
+
+      // Track real-time activity
+      if (session_id && visitor_id) {
+        await query(
+          `INSERT INTO analytics_realtime (visitor_id, session_id, page_path, last_activity, is_active)
+           VALUES ($1, $2, $3, NOW(), true)
+           ON CONFLICT (visitor_id) 
+           DO UPDATE SET 
+             session_id = $2,
+             page_path = $3,
+             last_activity = NOW(),
+             is_active = true`,
+          [visitor_id, session_id, page_path]
+        )
+      }
+
+      // Clean up old real-time records (older than 5 minutes)
+      await query(
+        `UPDATE analytics_realtime 
+         SET is_active = false 
+         WHERE last_activity < NOW() - INTERVAL '5 minutes'`
+      )
+
     } catch (dbError) {
       console.log('Analytics tracking skipped:', dbError)
     }

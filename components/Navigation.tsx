@@ -42,14 +42,14 @@ export default function Navigation() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-gray-300 hover:text-gold transition-colors duration-300"
+                className="text-gray-300 hover:text-primary-purple transition-colors duration-300"
               >
                 {link.label}
               </a>
             ))}
             <Link
               href="/app"
-              className="px-6 py-2 bg-gold text-black font-semibold rounded-lg hover:bg-dark-gold transition-all duration-300"
+              className="px-6 py-2 bg-primary-purple text-black font-semibold rounded-lg hover:bg-dark-purple transition-all duration-300"
             >
               Preview Platform
             </Link>
@@ -84,7 +84,7 @@ export default function Navigation() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-gray-300 hover:text-gold transition-colors duration-300"
+                  className="text-gray-300 hover:text-primary-purple transition-colors duration-300"
                 >
                   {link.label}
                 </a>
@@ -92,7 +92,7 @@ export default function Navigation() {
               <Link
                 href="/app"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="px-6 py-2 bg-gold text-black font-semibold rounded-lg hover:bg-dark-gold transition-all duration-300 text-center"
+                className="px-6 py-2 bg-primary-purple text-black font-semibold rounded-lg hover:bg-dark-purple transition-all duration-300 text-center"
               >
                 Preview Platform
               </Link>

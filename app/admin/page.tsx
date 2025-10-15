@@ -133,7 +133,7 @@ export default function AdminPage() {
       <div className="min-h-screen bg-primary-black flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="glass-effect rounded-xl p-8">
-            <h1 className="text-2xl font-bold text-gold mb-6 text-center">Admin Access</h1>
+            <h1 className="text-2xl font-bold text-primary-purple mb-6 text-center">Admin Access</h1>
             
             <form onSubmit={handleLogin}>
               <div className="mb-4">
@@ -142,7 +142,7 @@ export default function AdminPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-purple focus:border-transparent"
                   placeholder="Enter admin password"
                   required
                 />
@@ -154,7 +154,7 @@ export default function AdminPage() {
 
               <button
                 type="submit"
-                className="w-full px-6 py-3 bg-gold text-black font-semibold rounded-lg hover:bg-dark-gold transition-all duration-300"
+                className="w-full px-6 py-3 bg-primary-purple text-black font-semibold rounded-lg hover:bg-dark-purple transition-all duration-300"
               >
                 Login
               </button>
@@ -162,7 +162,7 @@ export default function AdminPage() {
 
             <Link 
               href="/"
-              className="block text-center mt-6 text-gray-400 hover:text-gold transition-colors"
+              className="block text-center mt-6 text-gray-400 hover:text-primary-purple transition-colors"
             >
               ← Back to site
             </Link>
@@ -205,7 +205,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('overview')}
               className={`py-4 border-b-2 transition-colors ${
                 activeTab === 'overview' 
-                  ? 'border-gold text-gold' 
+                  ? 'border-primary-purple text-primary-purple' 
                   : 'border-transparent text-gray-400 hover:text-white'
               }`}
             >
@@ -215,7 +215,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('nominations')}
               className={`py-4 border-b-2 transition-colors ${
                 activeTab === 'nominations' 
-                  ? 'border-gold text-gold' 
+                  ? 'border-primary-purple text-primary-purple' 
                   : 'border-transparent text-gray-400 hover:text-white'
               }`}
             >
@@ -225,7 +225,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('waitlist')}
               className={`py-4 border-b-2 transition-colors ${
                 activeTab === 'waitlist' 
-                  ? 'border-gold text-gold' 
+                  ? 'border-primary-purple text-primary-purple' 
                   : 'border-transparent text-gray-400 hover:text-white'
               }`}
             >
@@ -245,26 +245,26 @@ export default function AdminPage() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="glass-effect rounded-xl p-6">
                 <p className="text-gray-400 mb-2">Total Visitors</p>
-                <p className="text-3xl font-bold text-gold">{analytics?.visitors.total || 0}</p>
+                <p className="text-3xl font-bold text-primary-purple">{analytics?.visitors.total || 0}</p>
               </div>
               <div className="glass-effect rounded-xl p-6">
                 <p className="text-gray-400 mb-2">Unique Visitors</p>
-                <p className="text-3xl font-bold text-gold">{analytics?.visitors.unique || 0}</p>
+                <p className="text-3xl font-bold text-primary-purple">{analytics?.visitors.unique || 0}</p>
               </div>
               <div className="glass-effect rounded-xl p-6">
                 <p className="text-gray-400 mb-2">Waitlist Signups</p>
-                <p className="text-3xl font-bold text-gold">{waitlistCount}</p>
+                <p className="text-3xl font-bold text-primary-purple">{waitlistCount}</p>
               </div>
               <div className="glass-effect rounded-xl p-6">
                 <p className="text-gray-400 mb-2">Nominations</p>
-                <p className="text-3xl font-bold text-gold">{nominations.length}</p>
+                <p className="text-3xl font-bold text-primary-purple">{nominations.length}</p>
               </div>
             </div>
 
             {/* Top Pages */}
             {analytics?.topPages && analytics.topPages.length > 0 && (
               <div className="glass-effect rounded-xl p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gold">Top Pages</h3>
+                <h3 className="text-xl font-semibold mb-4 text-primary-purple">Top Pages</h3>
                 <div className="space-y-2">
                   {analytics.topPages.map((page) => (
                     <div key={page.page_path} className="flex justify-between items-center py-2 border-b border-white/10">
@@ -292,13 +292,13 @@ export default function AdminPage() {
                   <div key={nomination.id} className="glass-effect rounded-xl p-6">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="text-xl font-semibold text-gold">{nomination.nominee_name}</h3>
+                        <h3 className="text-xl font-semibold text-primary-purple">{nomination.nominee_name}</h3>
                         <p className="text-gray-400">
                           {nomination.nominee_title && `${nomination.nominee_title}, `}
                           {nomination.nominee_organization}
                         </p>
                         {nomination.category && (
-                          <span className="inline-block mt-2 px-3 py-1 bg-gold/20 text-gold text-sm rounded-full">
+                          <span className="inline-block mt-2 px-3 py-1 bg-primary-purple/20 text-primary-purple text-sm rounded-full">
                             {nomination.category}
                           </span>
                         )}
@@ -333,7 +333,7 @@ export default function AdminPage() {
             
             <div className="glass-effect rounded-xl p-6">
               <div className="text-center py-8">
-                <p className="text-5xl font-bold text-gold mb-4">{waitlistCount}</p>
+                <p className="text-5xl font-bold text-primary-purple mb-4">{waitlistCount}</p>
                 <p className="text-gray-400">People waiting for launch</p>
               </div>
             </div>

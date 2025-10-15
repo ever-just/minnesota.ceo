@@ -79,14 +79,14 @@ export default function NominationForm() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="px-8 py-4 bg-transparent border-2 border-gold text-gold font-semibold rounded-lg hover:bg-gold hover:text-black transition-all duration-300 hover-glow"
+        className="px-8 py-4 bg-transparent border-2 border-primary-purple text-primary-purple font-semibold rounded-lg hover:bg-primary-purple hover:text-black transition-all duration-300 hover-glow"
       >
         Nominate a Leader
       </button>
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-black border border-gold/20 rounded-xl p-6 md:p-8">
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-black border border-primary-purple/20 rounded-xl p-6 md:p-8">
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl"
@@ -94,7 +94,7 @@ export default function NominationForm() {
               ×
             </button>
 
-            <h2 className="text-2xl md:text-3xl font-bold text-gold mb-6">Nominate a Minnesota Leader</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-primary-purple mb-6">Nominate a Minnesota Leader</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -106,7 +106,7 @@ export default function NominationForm() {
                     value={formData.nomineeName}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-purple focus:border-transparent"
                   />
                 </div>
 
@@ -117,7 +117,7 @@ export default function NominationForm() {
                     name="nomineeTitle"
                     value={formData.nomineeTitle}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-purple focus:border-transparent"
                   />
                 </div>
 
@@ -128,7 +128,7 @@ export default function NominationForm() {
                     name="nomineeOrganization"
                     value={formData.nomineeOrganization}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-purple focus:border-transparent"
                   />
                 </div>
 
@@ -138,7 +138,7 @@ export default function NominationForm() {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-purple focus:border-transparent"
                   >
                     <option value="">Select a category</option>
                     {leaderCategories.map((cat) => (
@@ -157,7 +157,7 @@ export default function NominationForm() {
                   value={formData.reason}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-purple focus:border-transparent resize-none"
                 />
               </div>
 
@@ -173,7 +173,7 @@ export default function NominationForm() {
                       value={formData.nominatorName}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-purple focus:border-transparent"
                     />
                   </div>
 
@@ -185,7 +185,7 @@ export default function NominationForm() {
                       value={formData.nominatorEmail}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-purple focus:border-transparent"
                     />
                   </div>
 
@@ -196,7 +196,7 @@ export default function NominationForm() {
                       name="nominatorPhone"
                       value={formData.nominatorPhone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-purple focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -212,7 +212,7 @@ export default function NominationForm() {
                 <button
                   type="submit"
                   disabled={status === 'loading' || status === 'success'}
-                  className="flex-1 px-8 py-3 bg-gold text-black font-semibold rounded-lg hover:bg-dark-gold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-8 py-3 bg-primary-purple text-black font-semibold rounded-lg hover:bg-dark-purple transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {status === 'loading' ? 'Submitting...' : status === 'success' ? 'Submitted!' : 'Submit Nomination'}
                 </button>

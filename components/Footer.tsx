@@ -21,22 +21,22 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-gray-400 hover:text-gold transition-colors">
+                <Link href="/" className="text-gray-400 hover:text-primary-purple transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/app" className="text-gray-400 hover:text-gold transition-colors">
+                <Link href="/app" className="text-gray-400 hover:text-primary-purple transition-colors">
                   Platform Preview
                 </Link>
               </li>
               <li>
-                <Link href="#nominate" className="text-gray-400 hover:text-gold transition-colors">
+                <Link href="#nominate" className="text-gray-400 hover:text-primary-purple transition-colors">
                   Nominate a Leader
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="text-gray-400 hover:text-gold transition-colors">
+                <Link href="/admin" className="text-gray-400 hover:text-primary-purple transition-colors">
                   Admin
                 </Link>
               </li>
@@ -48,12 +48,12 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/privacy" className="text-gray-400 hover:text-gold transition-colors">
+                <Link href="/privacy" className="text-gray-400 hover:text-primary-purple transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-gray-400 hover:text-gold transition-colors">
+                <Link href="/terms" className="text-gray-400 hover:text-primary-purple transition-colors">
                   Terms of Use
                 </Link>
               </li>
@@ -69,7 +69,7 @@ export default function Footer() {
             </p>
             <a 
               href="mailto:company@everjust.org"
-              className="text-sm text-gray-500 hover:text-gold transition-colors mt-2 md:mt-0"
+              className="text-sm text-gray-500 hover:text-primary-purple transition-colors mt-2 md:mt-0"
             >
               company@everjust.org
             </a>
