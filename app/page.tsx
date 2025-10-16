@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import EnhancedNavigation from '@/components/EnhancedNavigation'
 import CountdownTimer from '@/components/CountdownTimer'
 import WaitlistForm from '@/components/WaitlistForm'
@@ -15,9 +16,27 @@ import { motion } from 'framer-motion'
 import { trackPageView } from '@/lib/analytics'
 
 export default function HomePage() {
+  const router = useRouter()
+
   // Track page view with enhanced analytics
   useEffect(() => {
     trackPageView({ path: '/', title: 'Home' })
+  }, [])
+
+  // Handle hash navigation for smooth scrolling when arriving from other pages
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      // Remove the # from hash
+      const id = hash.substring(1)
+      // Wait for the page to render, then scroll
+      setTimeout(() => {
+        const element = document.getElementById(id)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
+    }
   }, [])
 
   return (

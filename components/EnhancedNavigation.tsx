@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState, useEffect, createElement } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
@@ -15,6 +16,8 @@ interface NavLink {
 }
 
 export default function EnhancedNavigation() {
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
   const [isScrolled, setIsScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -35,16 +38,25 @@ export default function EnhancedNavigation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Navigation links - use full path (/#section) when not on home page
   const navLinks: NavLink[] = [
-    { href: '#mission', label: 'Mission', icon: Target },
-    { href: '#vision', label: 'Vision', icon: Eye },
-    { href: '#categories', label: 'Leaders', icon: Users },
-    { href: '#nominate', label: 'Nominate', icon: Sparkles },
+    { href: isHomePage ? '#mission' : '/#mission', label: 'Mission', icon: Target },
+    { href: isHomePage ? '#vision' : '/#vision', label: 'Vision', icon: Eye },
+    { href: isHomePage ? '#categories' : '/#categories', label: 'Leaders', icon: Users },
+    { href: isHomePage ? '#nominate' : '/#nominate', label: 'Nominate', icon: Sparkles },
   ]
 
-  const handleLinkClick = (label: string) => {
+  const handleLinkClick = (label: string, href: string) => {
     trackClick(`nav-${label.toLowerCase()}`, label)
     setIsMobileMenuOpen(false)
+    
+    // If we're on home page and it's an anchor link, smooth scroll
+    if (isHomePage && href.startsWith('#')) {
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
   }
 
   return (
@@ -98,9 +110,15 @@ export default function EnhancedNavigation() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <a
+                    <Link
                       href={link.href}
-                      onClick={() => handleLinkClick(link.label)}
+                      onClick={(e) => {
+                        handleLinkClick(link.label, link.href)
+                        // Only prevent default if on home page with anchor link
+                        if (isHomePage && link.href.startsWith('#')) {
+                          e.preventDefault()
+                        }
+                      }}
                       onMouseEnter={() => setHoveredLink(link.label)}
                       onMouseLeave={() => setHoveredLink(null)}
                       className="relative group py-2"
@@ -124,7 +142,7 @@ export default function EnhancedNavigation() {
                         animate={{ scaleX: hoveredLink === link.label ? 1 : 0 }}
                         transition={{ duration: 0.2 }}
                       />
-                    </a>
+                    </Link>
                   </motion.div>
                 ))}
               
@@ -137,7 +155,7 @@ export default function EnhancedNavigation() {
                   asChild
                   variant="gradient"
                   size="default"
-                  onClick={() => handleLinkClick('Preview Platform')}
+                  onClick={() => handleLinkClick('Preview Platform', '/app')}
                 >
                   <Link href="/app">
                     Preview
@@ -192,19 +210,28 @@ export default function EnhancedNavigation() {
               <div className="container mx-auto px-4 py-4">
                 <div className="flex flex-col space-y-3">
                   {navLinks.map((link, index) => (
-                      <motion.a
+                      <motion.div
                         key={link.href}
-                        href={link.href}
-                        onClick={() => handleLinkClick(link.label)}
                         initial={{ x: -20, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: index * 0.1 }}
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 text-gray-300 hover:text-white hover:bg-purple-500/20 transition-all duration-300"
                       >
-                        {link.icon && createElement(link.icon, { className: "w-5 h-5" })}
-                        <span className="font-medium">{link.label}</span>
-                        <ChevronRight className="w-4 h-4 ml-auto" />
-                      </motion.a>
+                        <Link
+                          href={link.href}
+                          onClick={(e) => {
+                            handleLinkClick(link.label, link.href)
+                            // Only prevent default if on home page with anchor link
+                            if (isHomePage && link.href.startsWith('#')) {
+                              e.preventDefault()
+                            }
+                          }}
+                          className="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 text-gray-300 hover:text-white hover:bg-purple-500/20 transition-all duration-300"
+                        >
+                          {link.icon && createElement(link.icon, { className: "w-5 h-5" })}
+                          <span className="font-medium">{link.label}</span>
+                          <ChevronRight className="w-4 h-4 ml-auto" />
+                        </Link>
+                      </motion.div>
                     ))}
                   
                   <motion.div
@@ -214,7 +241,7 @@ export default function EnhancedNavigation() {
                   >
                     <Link
                       href="/app"
-                      onClick={() => handleLinkClick('Preview Platform')}
+                      onClick={() => handleLinkClick('Preview Platform', '/app')}
                       className="block px-4 py-3 bg-gradient-to-r from-purple-600 to-purple-500 !text-white font-semibold rounded-lg text-center hover:from-purple-700 hover:to-purple-600 transition-all duration-300"
                       style={{ color: '#ffffff' }}
                     >

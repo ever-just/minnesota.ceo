@@ -1,6 +1,6 @@
 'use client'
 
-import { getCookiePreferences } from './cookie-config'
+import { getCookiePreferences } from './cookie-preferences'
 
 export interface AnalyticsEvent {
   event_type: string

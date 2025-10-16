@@ -1,6 +1,6 @@
 'use client'
 
-import { getCookiePreferences } from './cookie-config'
+// import { getCookiePreferences } from './cookie-preferences'
 
 const PUBLIC_VAPID_KEY = process.env.NEXT_PUBLIC_VAPID_KEY || 'BKd0F3H4yP9zxDcV8CwNPb5UgXqVZGnQZn7KwNhYxUVHJKK2E1bLNYfvKNcPTgGPAj_Xe5gKVJ9jNbZlP3z3T_E'
 

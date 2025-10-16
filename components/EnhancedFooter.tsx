@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { 
   Mail, 
@@ -32,13 +33,16 @@ interface SocialLink {
 }
 
 export default function EnhancedFooter() {
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
   const currentYear = new Date().getFullYear()
 
+  // Quick links - use full path when not on home page
   const quickLinks: FooterLink[] = [
-    { label: 'Mission', href: '#mission' },
-    { label: 'Vision', href: '#vision' },
-    { label: 'Leader Categories', href: '#categories' },
-    { label: 'Nominate', href: '#nominate' },
+    { label: 'Mission', href: isHomePage ? '#mission' : '/#mission' },
+    { label: 'Vision', href: isHomePage ? '#vision' : '/#vision' },
+    { label: 'Leader Categories', href: isHomePage ? '#categories' : '/#categories' },
+    { label: 'Nominate', href: isHomePage ? '#nominate' : '/#nominate' },
   ]
 
   const legalLinks: FooterLink[] = [
