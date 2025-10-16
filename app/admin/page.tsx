@@ -21,6 +21,14 @@ interface Nomination {
   reason: string
   nominator_name: string
   nominator_email: string
+  nominator_phone?: string
+  created_at: string
+}
+
+interface WaitlistEntry {
+  id: number
+  email: string
+  source: string
   created_at: string
 }
 
@@ -33,6 +41,7 @@ export default function AdminPage() {
   const [analytics, setAnalytics] = useState<Analytics | null>(null)
   const [nominations, setNominations] = useState<Nomination[]>([])
   const [waitlistCount, setWaitlistCount] = useState(0)
+  const [waitlistEntries, setWaitlistEntries] = useState<WaitlistEntry[]>([])
   const [activeTab, setActiveTab] = useState<'overview' | 'nominations' | 'waitlist'>('overview')
 
   // Check authentication on mount
@@ -95,11 +104,12 @@ export default function AdminPage() {
       console.error('Error loading analytics:', error)
     }
 
-    // Load waitlist count
+    // Load waitlist data
     try {
-      const waitlistRes = await fetch('/api/waitlist')
+      const waitlistRes = await fetch('/api/waitlist?details=true')
       const waitlistData = await waitlistRes.json()
-      setWaitlistCount(waitlistData.count || 0)
+      setWaitlistEntries(waitlistData.entries || [])
+      setWaitlistCount(waitlistData.total || waitlistData.count || 0)
     } catch (error) {
       console.error('Error loading waitlist:', error)
     }
@@ -280,7 +290,27 @@ export default function AdminPage() {
 
         {activeTab === 'nominations' && (
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold mb-6">Leader Nominations</h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold">Leader Nominations</h2>
+              <button
+                onClick={() => {
+                  const csv = ['Nominee Name,Title,Organization,Category,Reason,Nominator Name,Nominator Email,Nominator Phone,Submitted Date']
+                  nominations.forEach(nom => {
+                    const reason = nom.reason ? nom.reason.replace(/"/g, '""').replace(/\n/g, ' ') : ''
+                    csv.push(`"${nom.nominee_name}","${nom.nominee_title || ''}","${nom.nominee_organization || ''}","${nom.category || ''}","${reason}","${nom.nominator_name}","${nom.nominator_email}","${nom.nominator_phone || ''}","${new Date(nom.created_at).toLocaleString()}"`)
+                  })
+                  const blob = new Blob([csv.join('\n')], { type: 'text/csv' })
+                  const url = URL.createObjectURL(blob)
+                  const a = document.createElement('a')
+                  a.href = url
+                  a.download = `nominations-${new Date().toISOString().split('T')[0]}.csv`
+                  a.click()
+                }}
+                className="px-4 py-2 bg-primary-purple text-black font-semibold rounded-lg hover:bg-dark-purple transition-colors"
+              >
+                Export CSV
+              </button>
+            </div>
             
             {nominations.length === 0 ? (
               <div className="glass-effect rounded-xl p-8 text-center">
@@ -291,7 +321,7 @@ export default function AdminPage() {
                 {nominations.map((nomination) => (
                   <div key={nomination.id} className="glass-effect rounded-xl p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <div>
+                      <div className="flex-1">
                         <h3 className="text-xl font-semibold text-primary-purple">{nomination.nominee_name}</h3>
                         <p className="text-gray-400">
                           {nomination.nominee_title && `${nomination.nominee_title}, `}
@@ -303,22 +333,39 @@ export default function AdminPage() {
                           </span>
                         )}
                       </div>
-                      <span className="text-sm text-gray-500">
-                        {new Date(nomination.created_at).toLocaleDateString()}
+                      <span className="text-sm text-gray-500 whitespace-nowrap ml-4">
+                        {new Date(nomination.created_at).toLocaleString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
                       </span>
                     </div>
                     
                     {nomination.reason && (
-                      <div className="mb-4">
-                        <p className="text-sm text-gray-400 mb-1">Reason:</p>
-                        <p className="text-gray-300">{nomination.reason}</p>
+                      <div className="mb-4 bg-white/5 rounded-lg p-4">
+                        <p className="text-sm text-gray-400 mb-2 font-semibold">Reason for Nomination:</p>
+                        <p className="text-gray-300 whitespace-pre-wrap">{nomination.reason}</p>
                       </div>
                     )}
                     
                     <div className="border-t border-white/10 pt-4">
-                      <p className="text-sm text-gray-400">
-                        Nominated by: {nomination.nominator_name} ({nomination.nominator_email})
-                      </p>
+                      <p className="text-sm text-gray-400 mb-1 font-semibold">Submitted by:</p>
+                      <div className="flex flex-wrap gap-4 text-sm">
+                        <span className="text-white">
+                          <span className="text-gray-400">Name:</span> {nomination.nominator_name}
+                        </span>
+                        <span className="text-white">
+                          <span className="text-gray-400">Email:</span> {nomination.nominator_email}
+                        </span>
+                        {nomination.nominator_phone && (
+                          <span className="text-white">
+                            <span className="text-gray-400">Phone:</span> {nomination.nominator_phone}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -329,14 +376,76 @@ export default function AdminPage() {
 
         {activeTab === 'waitlist' && (
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold mb-6">Waitlist</h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold">Waitlist</h2>
+              <button
+                onClick={() => {
+                  const csv = ['Email,Source,Joined Date']
+                  waitlistEntries.forEach(entry => {
+                    csv.push(`${entry.email},${entry.source},${new Date(entry.created_at).toLocaleString()}`)
+                  })
+                  const blob = new Blob([csv.join('\n')], { type: 'text/csv' })
+                  const url = URL.createObjectURL(blob)
+                  const a = document.createElement('a')
+                  a.href = url
+                  a.download = `waitlist-${new Date().toISOString().split('T')[0]}.csv`
+                  a.click()
+                }}
+                className="px-4 py-2 bg-primary-purple text-black font-semibold rounded-lg hover:bg-dark-purple transition-colors"
+              >
+                Export CSV
+              </button>
+            </div>
             
+            {/* Summary Card */}
             <div className="glass-effect rounded-xl p-6">
-              <div className="text-center py-8">
-                <p className="text-5xl font-bold text-primary-purple mb-4">{waitlistCount}</p>
-                <p className="text-gray-400">People waiting for launch</p>
+              <div className="text-center py-4">
+                <p className="text-5xl font-bold text-primary-purple mb-2">{waitlistCount}</p>
+                <p className="text-gray-400">Total Waitlist Signups</p>
               </div>
             </div>
+
+            {/* Waitlist Entries */}
+            {waitlistEntries.length === 0 ? (
+              <div className="glass-effect rounded-xl p-8 text-center">
+                <p className="text-gray-400">No waitlist entries yet</p>
+              </div>
+            ) : (
+              <div className="glass-effect rounded-xl overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-white/5 border-b border-white/10">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-primary-purple">Email</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-primary-purple">Source</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-primary-purple">Joined Date</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/10">
+                      {waitlistEntries.map((entry) => (
+                        <tr key={entry.id} className="hover:bg-white/5 transition-colors">
+                          <td className="px-6 py-4 text-white">{entry.email}</td>
+                          <td className="px-6 py-4">
+                            <span className="inline-block px-3 py-1 bg-primary-purple/20 text-primary-purple text-sm rounded-full">
+                              {entry.source}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-gray-400">
+                            {new Date(entry.created_at).toLocaleString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

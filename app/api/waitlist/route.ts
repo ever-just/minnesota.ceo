@@ -74,14 +74,32 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     // This endpoint requires admin authentication in production
-    // For now, we'll return mock data
+    const url = new URL(request.url)
+    const details = url.searchParams.get('details') === 'true'
     
-    const result = await query('SELECT COUNT(*) as count FROM waitlist')
-    const count = result.rows[0]?.count || 0
+    if (details) {
+      // Return full waitlist entries
+      const result = await query(
+        'SELECT id, email, source, created_at FROM waitlist ORDER BY created_at DESC'
+      )
+      
+      return NextResponse.json({ 
+        entries: result.rows || [],
+        total: result.rowCount || 0,
+      })
+    } else {
+      // Just return count for backwards compatibility
+      const result = await query('SELECT COUNT(*) as count FROM waitlist')
+      const count = result.rows[0]?.count || 0
 
-    return NextResponse.json({ count })
+      return NextResponse.json({ count })
+    }
   } catch (error) {
     // Return mock data if database is not configured
-    return NextResponse.json({ count: 0 })
+    return NextResponse.json({ 
+      count: 0,
+      entries: [],
+      total: 0,
+    })
   }
 }
