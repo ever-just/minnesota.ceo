@@ -17,6 +17,11 @@ const customCSS = `
     max-width: 480px !important;
   }
   
+  /* Fix aria-hidden accessibility issue */
+  .cm[aria-hidden="true"], .pm[aria-hidden="true"] {
+    aria-hidden: false !important;
+  }
+  
   .cm__title, .pm__title {
     color: #fff !important;
     font-weight: 600 !important;

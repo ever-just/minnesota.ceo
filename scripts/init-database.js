@@ -14,8 +14,7 @@ if (!DATABASE_URL) {
 const pool = new Pool({
   connectionString: DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false,
-    require: true
+    rejectUnauthorized: false
   }
 });
 
