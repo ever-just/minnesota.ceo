@@ -11,9 +11,9 @@ export interface CookiePreferences {
 export const cookieConfig: CookieConsent.CookieConsentConfig = {
   guiOptions: {
     consentModal: {
-      layout: 'box',
-      position: 'bottom right',
-      equalWeightButtons: true,
+      layout: 'bar inline',
+      position: 'bottom',
+      equalWeightButtons: false,
       flipButtons: false
     },
     preferencesModal: {

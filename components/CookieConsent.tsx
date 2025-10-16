@@ -12,14 +12,18 @@ const customCSS = `
   
   .cm, .pm {
     background: linear-gradient(to bottom, #1a1a1a, #000000) !important;
-    border: 1px solid rgba(147, 51, 234, 0.3) !important;
-    box-shadow: 0 20px 25px -5px rgba(147, 51, 234, 0.1), 0 10px 10px -5px rgba(147, 51, 234, 0.04) !important;
-    max-width: 480px !important;
+    border-top: 1px solid rgba(147, 51, 234, 0.3) !important;
+    box-shadow: 0 -10px 25px -5px rgba(147, 51, 234, 0.1) !important;
+  }
+  
+  /* Bottom bar layout */
+  .cm--bar {
+    padding: 1.25rem !important;
   }
   
   /* Fix aria-hidden accessibility issue */
   .cm[aria-hidden="true"], .pm[aria-hidden="true"] {
-    aria-hidden: false !important;
+    visibility: visible !important;
   }
   
   .cm__title, .pm__title {
