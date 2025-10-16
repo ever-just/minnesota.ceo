@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import 'vanilla-cookieconsent/dist/cookieconsent.css'
 import CookieConsent from '@/components/CookieConsent'
 import PushNotificationPrompt from '@/components/PushNotificationPrompt'
 import { Toaster } from '@/components/ui/toaster'
