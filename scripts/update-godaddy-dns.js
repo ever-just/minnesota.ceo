@@ -50,7 +50,13 @@ const dnsRecords = [
   {
     type: 'A',
     name: '@',
-    data: targetIP || '165.227.70.236',
+    data: '162.159.140.98',
+    ttl: 600
+  },
+  {
+    type: 'A',
+    name: '@',
+    data: '172.66.0.96',
     ttl: 600
   },
   {
