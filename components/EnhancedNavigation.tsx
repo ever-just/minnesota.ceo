@@ -17,12 +17,12 @@ interface NavLink {
 
 export default function EnhancedNavigation() {
   const pathname = usePathname()
-  const [isHomePage, setIsHomePage] = useState(true) // Default to true for SSR
+  const [isHomePage, setIsHomePage] = useState(() => pathname === '/') // Initialize based on actual pathname
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
-  // Update isHomePage on client side only
+  // Update isHomePage when pathname changes
   useEffect(() => {
     setIsHomePage(pathname === '/')
   }, [pathname])
@@ -61,7 +61,7 @@ export default function EnhancedNavigation() {
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
+        initial={false}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={cn(
@@ -98,7 +98,7 @@ export default function EnhancedNavigation() {
               {navLinks.map((link, index) => (
                   <motion.div
                     key={link.href}
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={false}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
@@ -131,7 +131,7 @@ export default function EnhancedNavigation() {
                       {/* Animated underline */}
                       <motion.div
                         className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-600 to-purple-400"
-                        initial={{ scaleX: 0 }}
+                        initial={false}
                         animate={{ scaleX: hoveredLink === link.label ? 1 : 0 }}
                         transition={{ duration: 0.2 }}
                       />
@@ -140,7 +140,7 @@ export default function EnhancedNavigation() {
                 ))}
               
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={false}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 }}
               >
@@ -169,7 +169,7 @@ export default function EnhancedNavigation() {
                 {isMobileMenuOpen ? (
                   <motion.div
                     key="close"
-                    initial={{ rotate: -90 }}
+                    initial={false}
                     animate={{ rotate: 0 }}
                     exit={{ rotate: 90 }}
                   >
@@ -178,7 +178,7 @@ export default function EnhancedNavigation() {
                 ) : (
                   <motion.div
                     key="menu"
-                    initial={{ rotate: 90 }}
+                    initial={false}
                     animate={{ rotate: 0 }}
                     exit={{ rotate: -90 }}
                   >
@@ -194,7 +194,7 @@ export default function EnhancedNavigation() {
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
+              initial={false}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
@@ -205,7 +205,7 @@ export default function EnhancedNavigation() {
                   {navLinks.map((link, index) => (
                       <motion.div
                         key={link.href}
-                        initial={{ x: -20, opacity: 0 }}
+                        initial={false}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: index * 0.1 }}
                       >
@@ -229,7 +229,7 @@ export default function EnhancedNavigation() {
                     ))}
                   
                   <motion.div
-                    initial={{ x: -20, opacity: 0 }}
+                    initial={false}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: navLinks.length * 0.1 }}
                   >
