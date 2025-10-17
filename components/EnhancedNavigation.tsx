@@ -17,21 +17,20 @@ interface NavLink {
 
 export default function EnhancedNavigation() {
   const pathname = usePathname()
-  const isHomePage = pathname === '/'
+  const [isHomePage, setIsHomePage] = useState(true) // Default to true for SSR
   const [isScrolled, setIsScrolled] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+
+  // Update isHomePage on client side only
+  useEffect(() => {
+    setIsHomePage(pathname === '/')
+  }, [pathname])
 
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.scrollY > 20
       setIsScrolled(scrolled)
-      
-      // Calculate scroll progress
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight
-      const progress = (window.scrollY / totalHeight) * 100
-      setScrollProgress(progress)
     }
     
     window.addEventListener('scroll', handleScroll)
@@ -61,13 +60,6 @@ export default function EnhancedNavigation() {
 
   return (
     <>
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-purple-400 z-50 origin-left"
-        style={{ scaleX: scrollProgress / 100 }}
-        initial={{ scaleX: 0 }}
-      />
-      
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -112,6 +104,7 @@ export default function EnhancedNavigation() {
                   >
                     <Link
                       href={link.href}
+                      prefetch={true}
                       onClick={(e) => {
                         handleLinkClick(link.label, link.href)
                         // Only prevent default if on home page with anchor link
@@ -155,9 +148,9 @@ export default function EnhancedNavigation() {
                   asChild
                   variant="gradient"
                   size="default"
-                  onClick={() => handleLinkClick('Preview Platform', '/app')}
+                  onClick={() => handleLinkClick('Preview Platform', '/preview')}
                 >
-                  <Link href="/app">
+                  <Link href="/preview" prefetch={true}>
                     Preview
                     <ChevronRight className="w-4 h-4" />
                   </Link>
@@ -218,6 +211,7 @@ export default function EnhancedNavigation() {
                       >
                         <Link
                           href={link.href}
+                          prefetch={true}
                           onClick={(e) => {
                             handleLinkClick(link.label, link.href)
                             // Only prevent default if on home page with anchor link
@@ -240,8 +234,9 @@ export default function EnhancedNavigation() {
                     transition={{ delay: navLinks.length * 0.1 }}
                   >
                     <Link
-                      href="/app"
-                      onClick={() => handleLinkClick('Preview Platform', '/app')}
+                      href="/preview"
+                      prefetch={true}
+                      onClick={() => handleLinkClick('Preview Platform', '/preview')}
                       className="block px-4 py-3 bg-gradient-to-r from-purple-600 to-purple-500 !text-white font-semibold rounded-lg text-center hover:from-purple-700 hover:to-purple-600 transition-all duration-300"
                       style={{ color: '#ffffff' }}
                     >

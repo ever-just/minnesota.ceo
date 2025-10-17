@@ -83,7 +83,8 @@ const config: Config = {
   			'fade-in': 'fadeIn 0.5s ease-in-out',
   			'fade-up': 'fadeUp 0.7s ease-out',
   			'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-  			float: 'float 6s ease-in-out infinite'
+  			float: 'float 6s ease-in-out infinite',
+  			gradient: 'gradient 6s ease-in-out infinite'
   		},
   		keyframes: {
   			fadeIn: {
@@ -110,6 +111,14 @@ const config: Config = {
   				},
   				'50%': {
   					transform: 'translateY(-20px)'
+  				}
+  			},
+  			gradient: {
+  				'0%, 100%': {
+  					backgroundPosition: '0% 50%'
+  				},
+  				'50%': {
+  					backgroundPosition: '100% 50%'
   				}
   			}
   		},

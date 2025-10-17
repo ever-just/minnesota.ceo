@@ -7,15 +7,9 @@ import {
   Mail, 
   Phone, 
   MapPin, 
-  Twitter, 
-  Linkedin, 
-  Youtube,
-  Instagram,
   ArrowUpRight,
   Heart
 } from 'lucide-react'
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaYoutube } from 'react-icons/fa'
-import { createElement } from 'react'
 import EnhancedEmailField from './EnhancedEmailField'
 import { trackClick } from '@/lib/analytics'
 
@@ -23,13 +17,6 @@ interface FooterLink {
   label: string
   href: string
   external?: boolean
-}
-
-interface SocialLink {
-  icon: React.ElementType
-  href: string
-  label: string
-  color: string
 }
 
 export default function EnhancedFooter() {
@@ -49,39 +36,6 @@ export default function EnhancedFooter() {
     { label: 'Privacy Policy', href: '/privacy' },
     { label: 'Terms of Use', href: '/terms' },
     { label: 'Cookie Policy', href: '/privacy#cookies' },
-  ]
-
-  const socialLinks: SocialLink[] = [
-    { 
-      icon: FaTwitter, 
-      href: 'https://twitter.com/minnesotaceo',
-      label: 'Twitter',
-      color: 'hover:text-blue-400'
-    },
-    { 
-      icon: FaLinkedinIn, 
-      href: 'https://linkedin.com/company/minnesotaceo',
-      label: 'LinkedIn',
-      color: 'hover:text-blue-600'
-    },
-    { 
-      icon: FaYoutube, 
-      href: 'https://youtube.com/@minnesotaceo',
-      label: 'YouTube',
-      color: 'hover:text-red-600'
-    },
-    { 
-      icon: FaInstagram, 
-      href: 'https://instagram.com/minnesotaceo',
-      label: 'Instagram',
-      color: 'hover:text-pink-600'
-    },
-    { 
-      icon: FaFacebookF, 
-      href: 'https://facebook.com/minnesotaceo',
-      label: 'Facebook',
-      color: 'hover:text-blue-500'
-    },
   ]
 
   const handleNewsletterSubmit = async (email: string) => {
@@ -162,6 +116,7 @@ export default function EnhancedFooter() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
+                    prefetch={true}
                     onClick={() => trackClick(`footer-${link.label.toLowerCase()}`, link.label)}
                     className="group flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors duration-300"
                   >
@@ -186,6 +141,7 @@ export default function EnhancedFooter() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
+                    prefetch={true}
                     onClick={() => trackClick(`footer-${link.label.toLowerCase().replace(' ', '-')}`, link.label)}
                     className="text-gray-400 hover:text-purple-400 transition-colors duration-300"
                   >
@@ -223,31 +179,6 @@ export default function EnhancedFooter() {
           </motion.div>
         </div>
 
-        {/* Social Links */}
-        <motion.div 
-          variants={itemVariants}
-          className="border-t border-purple-500/20 pt-8 mb-8"
-        >
-          <div className="flex justify-center items-center space-x-6">
-            {socialLinks.map((social, index) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackClick(`footer-social-${social.label.toLowerCase()}`, social.label)}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.2, rotate: 360 }}
-                  className={`p-3 rounded-full bg-purple-500/10 border border-purple-500/20 text-gray-400 ${social.color} transition-all duration-300`}
-                  aria-label={social.label}
-                >
-                  {createElement(social.icon, { className: "w-5 h-5" })}
-                </motion.a>
-              ))}
-          </div>
-        </motion.div>
 
         {/* Bottom Bar */}
         <motion.div 
