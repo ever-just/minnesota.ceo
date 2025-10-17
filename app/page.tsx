@@ -173,12 +173,12 @@ export default function HomePage() {
           <ScrollReveal animationVariant="fadeUp" delay={0.4}>
             <div className="flex justify-center">
               <Link
-                href="/preview"
-                prefetch={true}
+                href="https://app.minnesota.ceo"
+                prefetch={false}
                 className="group inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105"
               >
                 <Play size={24} className="text-white" />
-                <span className="text-white font-bold text-lg">Preview the Platform</span>
+                <span className="text-white font-bold text-lg">APP</span>
                 <ArrowRight size={20} className="text-white group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

@@ -60,9 +60,9 @@ const dnsRecords = [
     ttl: 600
   },
   {
-    type: 'CNAME',
+    type: 'A',
     name: 'app',
-    data: appURL || `minnesota-ceo-fupnz.ondigitalocean.app`,
+    data: '159.89.134.232',
     ttl: 600
   },
   {

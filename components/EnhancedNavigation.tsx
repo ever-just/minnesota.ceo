@@ -148,10 +148,10 @@ export default function EnhancedNavigation() {
                   asChild
                   variant="gradient"
                   size="default"
-                  onClick={() => handleLinkClick('Preview Platform', '/preview')}
+                  onClick={() => handleLinkClick('App Platform', 'https://app.minnesota.ceo')}
                 >
-                  <Link href="/preview" prefetch={true}>
-                    Preview
+                  <Link href="https://app.minnesota.ceo" prefetch={false}>
+                    APP
                     <ChevronRight className="w-4 h-4" />
                   </Link>
                 </Button>
@@ -234,13 +234,13 @@ export default function EnhancedNavigation() {
                     transition={{ delay: navLinks.length * 0.1 }}
                   >
                     <Link
-                      href="/preview"
-                      prefetch={true}
-                      onClick={() => handleLinkClick('Preview Platform', '/preview')}
+                      href="https://app.minnesota.ceo"
+                      prefetch={false}
+                      onClick={() => handleLinkClick('App Platform', 'https://app.minnesota.ceo')}
                       className="block px-4 py-3 bg-gradient-to-r from-purple-600 to-purple-500 !text-white font-semibold rounded-lg text-center hover:from-purple-700 hover:to-purple-600 transition-all duration-300"
                       style={{ color: '#ffffff' }}
                     >
-                      Preview Platform
+                      APP
                     </Link>
                   </motion.div>
                 </div>
