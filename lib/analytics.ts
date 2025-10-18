@@ -38,6 +38,10 @@ class Analytics {
   private pageStartTime: number = 0
   private scrollDepth: number = 0
   private isEnabled: boolean = false
+  private sessionStartTime: number = 0
+  private pageCount: number = 0
+  private geoData: any = null
+  private landingPage: string = ''
 
   constructor() {
     if (typeof window !== 'undefined') {
@@ -45,7 +49,7 @@ class Analytics {
     }
   }
 
-  private initialize() {
+  private async initialize() {
     // Check cookie consent
     const preferences = getCookiePreferences()
     this.isEnabled = preferences.analytics
@@ -57,18 +61,94 @@ class Analytics {
     
     // Create new session
     this.sessionId = this.generateId()
+    this.sessionStartTime = Date.now()
+    this.landingPage = window.location.pathname
+    this.pageCount = 1
     
     // Track page view on initialization
     this.pageStartTime = Date.now()
+    
+    await this.fetchGeolocation()
+    
+    // Create session in database
+    await this.createSession()
     
     // Set up event listeners
     this.setupEventListeners()
   }
 
+  private async fetchGeolocation() {
+    try {
+      const response = await fetch('https://ip-api.com/json/')
+      if (response.ok) {
+        this.geoData = await response.json()
+      }
+    } catch (error) {
+      console.error('Geolocation fetch error:', error)
+    }
+  }
+
+  private async createSession() {
+    if (!this.sessionId || !this.visitorId) return
+
+    try {
+      const deviceType = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
+      const browserMatch = navigator.userAgent.match(/(Chrome|Firefox|Safari|Edge|Opera)\/[\d.]+/)
+      const browser = browserMatch ? browserMatch[1] : 'Unknown'
+      const osMatch = navigator.userAgent.match(/(Windows|Mac|Linux|Android|iOS)/)
+      const os = osMatch ? osMatch[1] : 'Unknown'
+
+      await fetch('/api/analytics/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: this.sessionId,
+          visitor_id: this.visitorId,
+          ip_address: this.geoData?.query,
+          country: this.geoData?.country,
+          region: this.geoData?.regionName,
+          city: this.geoData?.city,
+          latitude: this.geoData?.lat,
+          longitude: this.geoData?.lon,
+          user_agent: navigator.userAgent,
+          device_type: deviceType,
+          browser: browser,
+          os: os,
+          referrer: document.referrer,
+          landing_page: this.landingPage,
+          started_at: new Date(this.sessionStartTime).toISOString()
+        })
+      })
+    } catch (error) {
+      console.error('Session creation error:', error)
+    }
+  }
+
+  private async updateSession() {
+    if (!this.sessionId) return
+
+    try {
+      const duration = Math.round((Date.now() - this.sessionStartTime) / 1000)
+      await fetch('/api/analytics/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: this.sessionId,
+          visitor_id: this.visitorId,
+          exit_page: window.location.pathname,
+          page_count: this.pageCount,
+          ended_at: new Date().toISOString(),
+          duration_seconds: duration
+        })
+      })
+    } catch (error) {
+      console.error('Session update error:', error)
+    }
+  }
+
   private setupEventListeners() {
     if (!this.isEnabled) return
 
-    // Track scroll depth
     let maxScroll = 0
     window.addEventListener('scroll', () => {
       const scrollPercentage = Math.round(
@@ -78,7 +158,6 @@ class Analytics {
       this.scrollDepth = maxScroll
     })
 
-    // Track page unload
     window.addEventListener('beforeunload', () => {
       const timeOnPage = Math.round((Date.now() - this.pageStartTime) / 1000)
       this.trackPageView({
@@ -88,17 +167,27 @@ class Analytics {
         time_on_page: timeOnPage,
         scroll_depth: this.scrollDepth
       })
+      this.updateSession()
     })
 
-    // Track visibility change (tab switching)
     let hiddenTime = 0
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         hiddenTime = Date.now()
       } else if (hiddenTime > 0) {
-        // Subtract hidden time from page time
         this.pageStartTime += (Date.now() - hiddenTime)
         hiddenTime = 0
+      }
+    })
+
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement
+      if (target) {
+        this.trackClick(
+          target.id || target.className || target.tagName,
+          target.textContent?.substring(0, 50) || undefined,
+          event
+        )
       }
     })
   }
@@ -146,24 +235,71 @@ class Analytics {
   }
 
   public async trackPageView(data?: Partial<PageViewData>) {
-    await this.trackEvent({
-      event_type: 'page_view',
-      page_path: data?.path || window.location.pathname,
-      event_value: JSON.stringify({
-        title: data?.title || document.title,
-        referrer: data?.referrer || document.referrer,
-        time_on_page: data?.time_on_page,
-        scroll_depth: data?.scroll_depth
+    if (!this.isEnabled || !this.sessionId || !this.visitorId) return
+
+    this.pageCount++
+
+    try {
+      await fetch('/api/analytics/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: this.sessionId,
+          visitor_id: this.visitorId,
+          page_path: data?.path || window.location.pathname,
+          page_title: data?.title || document.title,
+          referrer: data?.referrer || document.referrer,
+          time_on_page: data?.time_on_page,
+          scroll_depth: data?.scroll_depth
+        })
       })
-    })
+
+      await this.trackEvent({
+        event_type: 'page_view',
+        page_path: data?.path || window.location.pathname,
+        event_value: JSON.stringify({
+          title: data?.title || document.title,
+          referrer: data?.referrer || document.referrer,
+          time_on_page: data?.time_on_page,
+          scroll_depth: data?.scroll_depth
+        })
+      })
+    } catch (error) {
+      console.error('Page view tracking error:', error)
+    }
   }
 
-  public async trackClick(elementId: string, elementText?: string) {
-    await this.trackEvent({
-      event_type: 'click',
-      event_category: 'interaction',
-      event_value: JSON.stringify({ id: elementId, text: elementText })
-    })
+  public async trackClick(elementId: string, elementText?: string, event?: MouseEvent) {
+    if (!this.isEnabled || !this.sessionId || !this.visitorId) return
+
+    try {
+      const element = event?.target as HTMLElement
+      await fetch('/api/analytics/click', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: this.sessionId,
+          visitor_id: this.visitorId,
+          page_path: window.location.pathname,
+          element_id: elementId || element?.id,
+          element_class: element?.className,
+          element_tag: element?.tagName,
+          element_text: elementText || element?.textContent?.substring(0, 100),
+          x_position: event?.clientX,
+          y_position: event?.clientY,
+          viewport_width: window.innerWidth,
+          viewport_height: window.innerHeight
+        })
+      })
+
+      await this.trackEvent({
+        event_type: 'click',
+        event_category: 'interaction',
+        event_value: JSON.stringify({ id: elementId, text: elementText })
+      })
+    } catch (error) {
+      console.error('Click tracking error:', error)
+    }
   }
 
   public async trackFormSubmission(formName: string, success: boolean) {
@@ -208,11 +344,31 @@ class Analytics {
   }
 
   public async trackConversion(type: 'waitlist' | 'nomination' | 'newsletter', metadata?: any) {
-    await this.trackEvent({
-      event_type: 'conversion',
-      event_category: type,
-      event_value: JSON.stringify(metadata)
-    })
+    if (!this.isEnabled || !this.sessionId || !this.visitorId) return
+
+    try {
+      await fetch('/api/analytics/conversion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: this.sessionId,
+          visitor_id: this.visitorId,
+          conversion_type: type,
+          conversion_value: metadata?.value,
+          funnel_step: metadata?.step,
+          completed: metadata?.completed !== false,
+          metadata: metadata
+        })
+      })
+
+      await this.trackEvent({
+        event_type: 'conversion',
+        event_category: type,
+        event_value: JSON.stringify(metadata)
+      })
+    } catch (error) {
+      console.error('Conversion tracking error:', error)
+    }
   }
 
   // Set custom dimensions

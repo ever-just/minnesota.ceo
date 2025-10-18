@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
+import HeatmapView from '@/components/admin/HeatmapView'
 
 interface Analytics {
   period: string
@@ -42,7 +44,7 @@ export default function AdminPage() {
   const [nominations, setNominations] = useState<Nomination[]>([])
   const [waitlistCount, setWaitlistCount] = useState(0)
   const [waitlistEntries, setWaitlistEntries] = useState<WaitlistEntry[]>([])
-  const [activeTab, setActiveTab] = useState<'overview' | 'nominations' | 'waitlist'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'analytics' | 'heatmap' | 'nominations' | 'waitlist'>('overview')
 
   // Check authentication on mount
   useEffect(() => {
@@ -210,10 +212,10 @@ export default function AdminPage() {
       {/* Tabs */}
       <div className="border-b border-white/10">
         <div className="container mx-auto px-4">
-          <div className="flex gap-8">
+          <div className="flex gap-8 overflow-x-auto">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`py-4 border-b-2 transition-colors ${
+              className={`py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'overview' 
                   ? 'border-primary-purple text-primary-purple' 
                   : 'border-transparent text-gray-400 hover:text-white'
@@ -222,8 +224,28 @@ export default function AdminPage() {
               Overview
             </button>
             <button
+              onClick={() => setActiveTab('analytics')}
+              className={`py-4 border-b-2 transition-colors whitespace-nowrap ${
+                activeTab === 'analytics' 
+                  ? 'border-primary-purple text-primary-purple' 
+                  : 'border-transparent text-gray-400 hover:text-white'
+              }`}
+            >
+              Analytics
+            </button>
+            <button
+              onClick={() => setActiveTab('heatmap')}
+              className={`py-4 border-b-2 transition-colors whitespace-nowrap ${
+                activeTab === 'heatmap' 
+                  ? 'border-primary-purple text-primary-purple' 
+                  : 'border-transparent text-gray-400 hover:text-white'
+              }`}
+            >
+              Heatmap
+            </button>
+            <button
               onClick={() => setActiveTab('nominations')}
-              className={`py-4 border-b-2 transition-colors ${
+              className={`py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'nominations' 
                   ? 'border-primary-purple text-primary-purple' 
                   : 'border-transparent text-gray-400 hover:text-white'
@@ -233,7 +255,7 @@ export default function AdminPage() {
             </button>
             <button
               onClick={() => setActiveTab('waitlist')}
-              className={`py-4 border-b-2 transition-colors ${
+              className={`py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'waitlist' 
                   ? 'border-primary-purple text-primary-purple' 
                   : 'border-transparent text-gray-400 hover:text-white'
@@ -286,6 +308,14 @@ export default function AdminPage() {
               </div>
             )}
           </div>
+        )}
+
+        {activeTab === 'analytics' && (
+          <AnalyticsDashboard />
+        )}
+
+        {activeTab === 'heatmap' && (
+          <HeatmapView />
         )}
 
         {activeTab === 'nominations' && (
