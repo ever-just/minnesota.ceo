@@ -1,5 +1,5 @@
 // Service Worker for MINNESOTA.CEO
-const CACHE_NAME = 'minnesota-ceo-v1';
+const CACHE_NAME = 'minnesota-ceo-v2';
 const urlsToCache = [
   '/',
   '/manifest.json'
@@ -25,6 +25,13 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - serve from cache when offline
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  if (url.pathname.startsWith('/admin') || 
+      url.pathname.startsWith('/api/') ||
+      event.request.method !== 'GET') {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -32,9 +39,17 @@ self.addEventListener('fetch', (event) => {
         if (response) {
           return response;
         }
-        return fetch(event.request);
-      }
-    )
+        return fetch(event.request).catch((error) => {
+          console.log('Fetch failed for:', event.request.url, error);
+          return new Response('Offline - please check your connection', {
+            status: 503,
+            statusText: 'Service Unavailable',
+            headers: new Headers({
+              'Content-Type': 'text/plain'
+            })
+          });
+        });
+      })
   );
 });
 
