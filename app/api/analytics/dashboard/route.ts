@@ -4,21 +4,37 @@ import { query } from '@/lib/db'
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const period = searchParams.get('period') || 'month'
-    const startDate = searchParams.get('startDate')
-    const endDate = searchParams.get('endDate')
+    const periodParam = searchParams.get('period') || 'month'
+    const startDateParam = searchParams.get('startDate')
+    const endDateParam = searchParams.get('endDate')
+
+    const validPeriods = ['day', 'week', 'month', 'year']
+    const period = validPeriods.includes(periodParam) ? periodParam : 'month'
+
+    const periodDays: Record<string, number> = {
+      day: 1,
+      week: 7,
+      month: 30,
+      year: 365
+    }
+    const days = periodDays[period]
 
     let dateFilter = ''
-    if (startDate && endDate) {
-      dateFilter = `AND created_at BETWEEN '${startDate}' AND '${endDate}'`
-    } else {
-      const periodDays: Record<string, number> = {
-        day: 1,
-        week: 7,
-        month: 30,
-        year: 365
+    let startDate: string | null = null
+    let endDate: string | null = null
+
+    if (startDateParam && endDateParam) {
+      const startDateObj = new Date(startDateParam)
+      const endDateObj = new Date(endDateParam)
+      
+      if (!isNaN(startDateObj.getTime()) && !isNaN(endDateObj.getTime())) {
+        startDate = startDateObj.toISOString().split('T')[0]
+        endDate = endDateObj.toISOString().split('T')[0]
+        dateFilter = `AND created_at BETWEEN '${startDate}' AND '${endDate}'`
+      } else {
+        dateFilter = `AND created_at >= NOW() - INTERVAL '${days} days'`
       }
-      const days = periodDays[period] || 30
+    } else {
       dateFilter = `AND created_at >= NOW() - INTERVAL '${days} days'`
     }
 
