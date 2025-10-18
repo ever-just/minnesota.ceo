@@ -45,7 +45,7 @@ export default function CountdownTimer() {
             <div className="text-2xl md:text-4xl font-bold text-primary-purple">
               {String(unit.value).padStart(2, '0')}
             </div>
-            <div className="text-xs md:text-sm text-gray-400 mt-2">{unit.label}</div>
+            <div className="text-xs md:text-sm text-gray-300 mt-2">{unit.label}</div>
           </div>
         </div>
       ))}

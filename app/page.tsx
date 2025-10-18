@@ -52,7 +52,7 @@ export default function HomePage() {
       <EnhancedNavigation />
 
       {/* Hero Section with Premium Spacing */}
-      <section className="relative min-h-[110vh] flex items-center justify-center px-6 py-32 overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center justify-center px-6 py-32 overflow-hidden">
         <FloatingOrbs />
         <GridPattern className="opacity-30" />
         
@@ -69,7 +69,7 @@ export default function HomePage() {
           <motion.h1 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight"
           >
             <span className="block bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient pb-4">
@@ -80,19 +80,19 @@ export default function HomePage() {
           <motion.p 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="text-xl md:text-2xl lg:text-3xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-light"
           >
-            Exclusive video interviews with Minnesota&apos;s most influential leaders 
-            <span className="block mt-2 text-lg md:text-xl text-gray-400">
-              From business titans to community heroes
+            Watch in-depth video interviews with Minnesota&apos;s top CEOs, innovators, and community leaders
+            <span className="block mt-4 text-lg md:text-xl text-gray-300">
+              Gain insights, inspiration, and actionable wisdom from those shaping our state&apos;s future
             </span>
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
             className="pt-8 pb-4"
           >
             <CountdownTimer />
@@ -101,7 +101,7 @@ export default function HomePage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
             className="pt-8"
           >
             <WaitlistForm />
@@ -149,7 +149,7 @@ export default function HomePage() {
                   <Video size={32} className="text-purple-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-white">Video Interviews</h3>
-                <p className="text-gray-400 text-sm">High-quality interviews with Minnesota&apos;s leaders</p>
+                <p className="text-gray-300 text-sm">High-quality interviews with Minnesota&apos;s leaders</p>
               </PremiumCard>
 
               <PremiumCard hover={true} className="text-center">
@@ -157,7 +157,7 @@ export default function HomePage() {
                   <Users size={32} className="text-purple-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-white">Leader Directory</h3>
-                <p className="text-gray-400 text-sm">Browse leaders across all industries and sectors</p>
+                <p className="text-gray-300 text-sm">Browse leaders across all industries and sectors</p>
               </PremiumCard>
 
               <PremiumCard hover={true} className="text-center">
@@ -165,7 +165,7 @@ export default function HomePage() {
                   <Sparkles size={32} className="text-purple-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-white">Exclusive Content</h3>
-                <p className="text-gray-400 text-sm">Behind-the-scenes insights and stories</p>
+                <p className="text-gray-300 text-sm">Behind-the-scenes insights and stories</p>
               </PremiumCard>
             </div>
           </ScrollReveal>
@@ -175,11 +175,11 @@ export default function HomePage() {
               <Link
                 href="https://app.minnesota.ceo"
                 prefetch={false}
-                className="group inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105"
+                className="group inline-flex items-center gap-2 px-6 py-3 border-2 border-purple-500/50 rounded-xl hover:border-purple-400 hover:bg-purple-500/10 transition-all duration-300 text-sm"
               >
-                <Play size={24} className="text-white" />
-                <span className="text-white font-bold text-lg">APP</span>
-                <ArrowRight size={20} className="text-white group-hover:translate-x-1 transition-transform" />
+                <Play size={18} className="text-purple-400" />
+                <span className="text-purple-300 font-medium">Preview App</span>
+                <ArrowRight size={16} className="text-purple-400 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </ScrollReveal>
@@ -294,7 +294,7 @@ export default function HomePage() {
                   <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                     {stat.number}
                   </div>
-                  <div className="text-gray-400 mt-2">{stat.label}</div>
+                  <div className="text-gray-300 mt-2">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
@@ -362,6 +362,57 @@ export default function HomePage() {
 
       <SectionDivider type="gradient" />
 
+      {/* Featured Leaders Preview Section */}
+      <section className="relative py-32 px-6 bg-gradient-to-b from-black via-purple-900/5 to-black">
+        <DotsPattern className="opacity-10" />
+        
+        <div className="container mx-auto max-w-7xl relative z-10">
+          <ScrollReveal animationVariant="fadeUp">
+            <div className="text-center mb-16">
+              <PremiumBadge text="Coming Soon" icon={Sparkles} />
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mt-6 mb-8">
+                <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  Featured Leaders
+                </span>
+              </h2>
+              <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+                Get a preview of the inspiring leaders we&apos;ll be featuring at launch
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { name: 'Governor Tim Walz', title: 'Governor of Minnesota', category: 'Government', badge: 'Featured' },
+              { name: 'Dr. Sarah Johnson', title: 'CEO, HealthPartners', category: 'Healthcare', badge: 'Featured' },
+              { name: 'Marcus Chen', title: 'Founder, TechMN', category: 'Tech & Innovation', badge: 'Featured' }
+            ].map((leader, index) => (
+              <ScrollReveal key={leader.name} animationVariant="fadeUp" delay={index * 0.1}>
+                <PremiumCard hover={true} className="h-full">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-white mb-1">{leader.name}</h3>
+                      <p className="text-sm text-gray-300 mb-2">{leader.title}</p>
+                      <span className="inline-block px-3 py-1 bg-purple-500/20 border border-purple-500/30 rounded-full text-xs text-purple-300">
+                        {leader.category}
+                      </span>
+                    </div>
+                    <span className="px-3 py-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-xs font-semibold text-white">
+                      {leader.badge}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-300 leading-relaxed">
+                    Watch exclusive interviews and learn from Minnesota&apos;s most influential leaders when we launch in November 2025.
+                  </p>
+                </PremiumCard>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider type="wave" />
+
       {/* Categories Section with Premium Icons */}
       <section id="categories" className="relative py-32 px-6">
         <GridPattern className="opacity-10" />
@@ -407,7 +458,7 @@ export default function HomePage() {
           </div>
 
           <ScrollReveal animationVariant="fadeUp">
-            <p className="text-center text-lg text-gray-400 mt-16 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-center text-lg text-gray-300 mt-16 max-w-3xl mx-auto leading-relaxed">
               From city councilmembers to governors, from faith leaders to educators, 
               from healthcare heroes to tech innovators—every Minnesota leader has a unique story worth sharing.
             </p>

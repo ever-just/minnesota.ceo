@@ -27,13 +27,25 @@ export default function PushNotificationPrompt() {
 
       const permission = getPushPermissionStatus()
       const hasSeenPrompt = localStorage.getItem('push_prompt_seen')
+      const hasDismissed = localStorage.getItem('push_prompt_dismissed')
       
-      // Show prompt after user has been on site for 30 seconds
-      // and hasn't seen it before
-      if (permission === 'default' && !hasSeenPrompt) {
-        setTimeout(() => {
-          setShowPrompt(true)
-        }, 30000) // 30 seconds
+      // Show prompt after user scrolls 60% down the page
+      // and hasn't seen it before or dismissed it
+      if (permission === 'default' && !hasSeenPrompt && !hasDismissed) {
+        const handleScroll = () => {
+          const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+          
+          if (scrollPercentage > 60) {
+            setTimeout(() => {
+              setShowPrompt(true)
+            }, 2000)
+            window.removeEventListener('scroll', handleScroll)
+          }
+        }
+        
+        window.addEventListener('scroll', handleScroll)
+        
+        return () => window.removeEventListener('scroll', handleScroll)
       }
 
       // Initialize push notifications if already granted
@@ -91,7 +103,7 @@ export default function PushNotificationPrompt() {
   const handleRemindLater = () => {
     setShowPrompt(false)
     localStorage.setItem('push_prompt_seen', 'true')
-    // Show again in 3 days
+    localStorage.setItem('push_prompt_dismissed', 'true')
     const remindDate = new Date()
     remindDate.setDate(remindDate.getDate() + 3)
     localStorage.setItem('push_prompt_remind', remindDate.toISOString())
@@ -101,6 +113,7 @@ export default function PushNotificationPrompt() {
   const handleClose = () => {
     setShowPrompt(false)
     localStorage.setItem('push_prompt_seen', 'true')
+    localStorage.setItem('push_prompt_dismissed', 'true')
     trackClick('push-notification-close', 'Closed')
   }
 

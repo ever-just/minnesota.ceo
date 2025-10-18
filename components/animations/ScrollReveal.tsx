@@ -79,7 +79,7 @@ export default function ScrollReveal({
   children,
   className = '',
   delay = 0,
-  duration = 0.6,
+  duration = 0.4,
   threshold = 0.2,
   triggerOnce = true,
   animationVariant = 'fadeUp'
@@ -89,6 +89,8 @@ export default function ScrollReveal({
     threshold,
     triggerOnce
   })
+  
+  const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   useEffect(() => {
     if (inView) {
@@ -103,11 +105,11 @@ export default function ScrollReveal({
       ref={ref}
       animate={controls}
       initial="hidden"
-      variants={animationVariants[animationVariant]}
+      variants={prefersReducedMotion ? { hidden: { opacity: 0 }, visible: { opacity: 1 } } : animationVariants[animationVariant]}
       transition={{
-        duration,
-        delay,
-        ease: [0.25, 0.1, 0.25, 1], // Custom easing for smooth animation
+        duration: prefersReducedMotion ? 0.01 : duration,
+        delay: prefersReducedMotion ? 0 : delay,
+        ease: [0.25, 0.1, 0.25, 1],
       }}
       className={className}
     >

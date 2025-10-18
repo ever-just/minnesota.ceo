@@ -92,7 +92,7 @@ export default function EnhancedFooter() {
           {/* Brand Section */}
           <motion.div variants={itemVariants} className="space-y-4">
             <h3 className="text-2xl font-bold gradient-text">MINNESOTA.CEO</h3>
-            <p className="text-gray-400">
+            <p className="text-gray-300">
               Showcasing Minnesota&apos;s most influential leaders through exclusive video interviews.
             </p>
             <div className="pt-4">
@@ -118,7 +118,7 @@ export default function EnhancedFooter() {
                     href={link.href}
                     prefetch={true}
                     onClick={() => trackClick(`footer-${link.label.toLowerCase()}`, link.label)}
-                    className="group flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors duration-300"
+                    className="group flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors duration-300"
                   >
                     <motion.span
                       className="w-1 h-1 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100"
@@ -143,7 +143,7 @@ export default function EnhancedFooter() {
                     href={link.href}
                     prefetch={true}
                     onClick={() => trackClick(`footer-${link.label.toLowerCase().replace(' ', '-')}`, link.label)}
-                    className="text-gray-400 hover:text-purple-400 transition-colors duration-300"
+                    className="text-gray-300 hover:text-purple-400 transition-colors duration-300"
                   >
                     {link.label}
                   </Link>
@@ -153,7 +153,7 @@ export default function EnhancedFooter() {
                 <a
                   href="mailto:company@everjust.org"
                   onClick={() => trackClick('footer-email', 'Contact Email')}
-                  className="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors duration-300"
+                  className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors duration-300"
                 >
                   <Mail className="w-4 h-4" />
                   company@everjust.org
@@ -165,7 +165,7 @@ export default function EnhancedFooter() {
           {/* Newsletter */}
           <motion.div variants={itemVariants} className="space-y-4">
             <h4 className="text-lg font-semibold text-white">Newsletter</h4>
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-300 text-sm">
               Get updates when we launch.
             </p>
             <div className="max-w-full">
