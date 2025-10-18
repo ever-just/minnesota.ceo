@@ -101,6 +101,96 @@ export async function initDatabase() {
       )
     `)
 
+    // Create sessions table for enhanced analytics
+    await query(`
+      CREATE TABLE IF NOT EXISTS sessions (
+        id SERIAL PRIMARY KEY,
+        session_id VARCHAR(255) UNIQUE NOT NULL,
+        visitor_id VARCHAR(255) NOT NULL,
+        ip_address VARCHAR(45),
+        country VARCHAR(100),
+        region VARCHAR(100),
+        city VARCHAR(100),
+        latitude DECIMAL(10, 8),
+        longitude DECIMAL(11, 8),
+        user_agent TEXT,
+        device_type VARCHAR(50),
+        browser VARCHAR(100),
+        os VARCHAR(100),
+        referrer TEXT,
+        landing_page VARCHAR(255),
+        exit_page VARCHAR(255),
+        page_count INTEGER DEFAULT 0,
+        started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        ended_at TIMESTAMP,
+        duration_seconds INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `)
+
+    // Create page_views table
+    await query(`
+      CREATE TABLE IF NOT EXISTS page_views (
+        id SERIAL PRIMARY KEY,
+        session_id VARCHAR(255) NOT NULL,
+        visitor_id VARCHAR(255) NOT NULL,
+        page_path VARCHAR(255) NOT NULL,
+        page_title VARCHAR(255),
+        referrer TEXT,
+        time_on_page INTEGER,
+        scroll_depth INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `)
+
+    // Create clicks table
+    await query(`
+      CREATE TABLE IF NOT EXISTS clicks (
+        id SERIAL PRIMARY KEY,
+        session_id VARCHAR(255) NOT NULL,
+        visitor_id VARCHAR(255) NOT NULL,
+        page_path VARCHAR(255) NOT NULL,
+        element_id VARCHAR(255),
+        element_class VARCHAR(255),
+        element_tag VARCHAR(50),
+        element_text TEXT,
+        x_position INTEGER,
+        y_position INTEGER,
+        viewport_width INTEGER,
+        viewport_height INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `)
+
+    // Create conversions table
+    await query(`
+      CREATE TABLE IF NOT EXISTS conversions (
+        id SERIAL PRIMARY KEY,
+        session_id VARCHAR(255) NOT NULL,
+        visitor_id VARCHAR(255) NOT NULL,
+        conversion_type VARCHAR(50) NOT NULL,
+        conversion_value VARCHAR(255),
+        funnel_step VARCHAR(100),
+        completed BOOLEAN DEFAULT FALSE,
+        metadata JSONB,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `)
+
+    // Create indexes for performance
+    await query('CREATE INDEX IF NOT EXISTS idx_sessions_visitor_id ON sessions(visitor_id)')
+    await query('CREATE INDEX IF NOT EXISTS idx_sessions_started_at ON sessions(started_at)')
+    await query('CREATE INDEX IF NOT EXISTS idx_sessions_country ON sessions(country)')
+    await query('CREATE INDEX IF NOT EXISTS idx_page_views_session_id ON page_views(session_id)')
+    await query('CREATE INDEX IF NOT EXISTS idx_page_views_page_path ON page_views(page_path)')
+    await query('CREATE INDEX IF NOT EXISTS idx_page_views_created_at ON page_views(created_at)')
+    await query('CREATE INDEX IF NOT EXISTS idx_clicks_session_id ON clicks(session_id)')
+    await query('CREATE INDEX IF NOT EXISTS idx_clicks_page_path ON clicks(page_path)')
+    await query('CREATE INDEX IF NOT EXISTS idx_clicks_created_at ON clicks(created_at)')
+    await query('CREATE INDEX IF NOT EXISTS idx_conversions_session_id ON conversions(session_id)')
+    await query('CREATE INDEX IF NOT EXISTS idx_conversions_type ON conversions(conversion_type)')
+    await query('CREATE INDEX IF NOT EXISTS idx_conversions_completed ON conversions(completed)')
+
     console.log('Database tables initialized successfully')
   } catch (error) {
     console.error('Database initialization error:', error)
