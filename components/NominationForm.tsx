@@ -109,7 +109,7 @@ export default function NominationForm() {
           <DialogTitle className="text-2xl font-bold text-purple-400">
             Nominate a Minnesota Leader
           </DialogTitle>
-          <DialogDescription className="text-gray-400">
+          <DialogDescription className="text-gray-300">
             Help us identify Minnesota&apos;s most impactful leaders for our interview series.
           </DialogDescription>
         </DialogHeader>
@@ -270,7 +270,7 @@ export default function NominationForm() {
               onClick={() => setIsOpen(false)}
               variant="outline"
               size="lg"
-              className="border-gray-600 text-gray-400 hover:border-white hover:text-white"
+              className="border-gray-600 text-gray-300 hover:border-white hover:text-white"
             >
               Cancel
             </Button>

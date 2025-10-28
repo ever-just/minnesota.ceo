@@ -169,6 +169,22 @@ export default function EnhancedEmailField({
           )}
         </AnimatePresence>
         
+        {/* Success details message */}
+        <AnimatePresence>
+          {status === 'success' && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute -bottom-16 left-0 right-0 text-center"
+            >
+              <p className="text-sm text-gray-300">
+                Check your email for confirmation. We&apos;ll notify you 2 weeks before launch!
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
         {/* Success animation particles */}
         {status === 'success' && (
           <motion.div
